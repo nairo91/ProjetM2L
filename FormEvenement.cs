@@ -19,35 +19,61 @@ namespace AppLegeayControles
         {
             InitializeComponent();
             utilisateurConnecteId = utilisateurId;
-            ChargerEvenements();
+
+
+            cbFiltre.SelectedIndex = 0; // ✅ Sélectionner "Tous" par défaut
+            cbFiltre.SelectedIndexChanged += cbFiltre_SelectedIndexChanged; // ✅ Détecter les changements
         }
 
+
         // Charger les événements dans le DataGridView
-        private void ChargerEvenements()
+        private void ChargerEvenements(string filtreStatut = "Tous")
         {
             List<Evenement> evenements = evenementDAO.ObtenirEvenements();
+
+            // ✅ Filtrer les événements en fonction du statut sélectionné
+            DateTime today = DateTime.Today;
+            switch (filtreStatut)
+            {
+                case "À venir":
+                    evenements = evenements.Where(e => e.Date >= DateTime.Now).ToList();
+                    break;
+
+                case "Passés":
+                    evenements = evenements.Where(e => e.Date < today).ToList();
+                    break;
+                
+                default:
+                    break; // "Tous" => aucun filtre
+            }
+
+            // ✅ Trier les événements par date ascendante (plus proche en premier)
+            evenements = evenements.OrderBy(e => e.Date).ToList();
+
+            // ✅ Mettre à jour le DataGridView
             dgvEvenements.DataSource = evenements;
 
-            // Vérifier si la colonne "NombreParticipants" existe déjà, sinon l'ajouter
+            // ✅ Vérifier si la colonne "NombreParticipants" existe déjà, sinon l'ajouter
             if (!dgvEvenements.Columns.Contains("NombreParticipants"))
             {
                 dgvEvenements.Columns.Add("NombreParticipants", "Participants");
             }
 
-            // Mettre à jour la colonne "NombreParticipants" avec le nombre de participants
+            // ✅ Mettre à jour la colonne "NombreParticipants" avec le nombre de participants
             foreach (DataGridViewRow row in dgvEvenements.Rows)
             {
-                if (row.Cells["Id"].Value != null) // Vérification pour éviter les erreurs
+                if (row.Cells["Id"].Value != null) // Éviter les erreurs
                 {
                     int evenementId = Convert.ToInt32(row.Cells["Id"].Value);
                     row.Cells["NombreParticipants"].Value = evenementDAO.NombreParticipants(evenementId);
                 }
             }
 
-            // Masquer l'ID et ajuster la taille des colonnes
+            // ✅ Masquer l'ID et ajuster la taille des colonnes
             dgvEvenements.Columns["Id"].Visible = false;
             dgvEvenements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
 
 
 
@@ -107,8 +133,10 @@ namespace AppLegeayControles
                 NbMaxParticipants = (int)numParticipants.Value
             };
 
+            // Ajoute l'événement et INSCRIT AUTOMATIQUEMENT le créateur
             evenementDAO.AjouterEvenement(evt, utilisateurConnecteId);
-            MessageBox.Show("Événement ajouté avec succès !");
+
+            MessageBox.Show("Événement ajouté avec succès et vous y êtes inscrit automatiquement !");
             ChargerEvenements();
             NettoyerChamps();
         }
@@ -275,6 +303,24 @@ namespace AppLegeayControles
             {
                 MessageBox.Show("Veuillez sélectionner un événement.");
             }
+        }
+
+        private void btnMesEvenements_Click(object sender, EventArgs e)
+        {
+            dgvEvenements.DataSource = evenementDAO.ObtenirMesEvenements(utilisateurConnecteId);
+
+        }
+
+        private void btnEvenementsCrees_Click(object sender, EventArgs e)
+        {
+            dgvEvenements.DataSource = evenementDAO.ObtenirEvenementsCrees(utilisateurConnecteId);
+
+        }
+
+        private void cbFiltre_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string filtreSelectionne = cbFiltre.SelectedItem.ToString();
+            ChargerEvenements(filtreSelectionne); // Recharger avec le filtre choisi
         }
     }
 }

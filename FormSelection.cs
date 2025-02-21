@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppContactEvenementM2Lv5;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,6 +43,12 @@ namespace AppLegeayControles
             Form1 formLogin = new Form1();
             formLogin.Show();
             this.Close(); // Ferme la fenêtre actuelle
+        }
+
+        private void btnProfil_Click(object sender, EventArgs e)
+        {
+            FormProfil formProfil = new FormProfil(utilisateurConnecteId);
+            formProfil.ShowDialog();
         }
     }
 }

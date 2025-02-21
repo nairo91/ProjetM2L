@@ -56,19 +56,21 @@ namespace AppLegeayControles
         }
 
         // Méthode pour inscrire un nouvel utilisateur avec des paramètres sécurisés
-        public static bool InscrireUtilisateur(string email, string motDePasse)
+        public static bool InscrireUtilisateur(string nom, string prenom, string email, string motDePasse)
         {
-            string query = "INSERT INTO utilisateurs (email, mdp) VALUES (@mail, @mdp)";
+            string query = "INSERT INTO utilisateurs (nom, prenom, email, mdp) VALUES (@nom, @prenom, @mail, @mdp)";
 
             try
             {
                 OpenConnection();
-                MySqlCommand cmd = new MySqlCommand(query, connection);
+                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
+                cmd.Parameters.AddWithValue("@nom", nom);
+                cmd.Parameters.AddWithValue("@prenom", prenom);
                 cmd.Parameters.AddWithValue("@mail", email);
                 cmd.Parameters.AddWithValue("@mdp", motDePasse);
                 int result = cmd.ExecuteNonQuery();
                 CloseConnection();
-                return result > 0;  // Si l'insertion est réussie (plus de 0 lignes affectées), retourner vrai
+                return result > 0;  // Retourne vrai si l'insertion réussit
             }
             catch (Exception ex)
             {
@@ -76,6 +78,7 @@ namespace AppLegeayControles
                 return false;
             }
         }
+    
 
         // Méthode pour vérifier si un utilisateur existe avec l'email et le mot de passe fournis
         public static bool ConnexionUtilisateur(string email, string motDePasse)
@@ -163,7 +166,8 @@ namespace AppLegeayControles
         public static DataTable GetAllUtilisateurs()
         {
             DataTable dt = new DataTable();
-            string query = "SELECT id, email, role FROM utilisateurs"; // On sélectionne les infos importantes
+            string query = "SELECT id, nom, prenom, email, role FROM utilisateurs";
+
 
             try
             {
@@ -171,10 +175,13 @@ namespace AppLegeayControles
                 MySqlCommand cmd = new MySqlCommand(query, GetConnection());
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
                 adapter.Fill(dt);  // Remplit le DataTable avec les données de la BDD
+
+                // Vérifier si la requête récupère bien des utilisateurs
+                MessageBox.Show($"Requête SQL exécutée : {query}, Nombre de résultats : {dt.Rows.Count}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Erreur lors de la récupération des utilisateurs : " + ex.Message);
+                MessageBox.Show($"Erreur SQL : {ex.Message}");
             }
             finally
             {
@@ -231,6 +238,193 @@ namespace AppLegeayControles
                 CloseConnection();
             }
         }
+
+        public static int GetNombreUtilisateurs()
+        {
+            string query = "SELECT COUNT(*) FROM utilisateurs";
+            int nombre = 0;
+
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
+                nombre = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors du comptage des utilisateurs : " + ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return nombre;
+        }
+
+        public static int GetNombreEvenements()
+        {
+            string query = "SELECT COUNT(*) FROM evenements";
+            int nombre = 0;
+
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
+                nombre = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors du comptage des événements : " + ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return nombre;
+        }
+
+        public static double GetTauxParticipation()
+        {
+            string totalParticipantsQuery = "SELECT COUNT(DISTINCT utilisateur_id) FROM inscriptions";
+            string totalUtilisateursQuery = "SELECT COUNT(*) FROM utilisateurs";
+
+            double taux = 0;
+
+            try
+            {
+                OpenConnection();
+
+                MySqlCommand cmdTotalParticipants = new MySqlCommand(totalParticipantsQuery, GetConnection());
+                int totalParticipants = Convert.ToInt32(cmdTotalParticipants.ExecuteScalar());
+
+                MySqlCommand cmdTotalUtilisateurs = new MySqlCommand(totalUtilisateursQuery, GetConnection());
+                int totalUtilisateurs = Convert.ToInt32(cmdTotalUtilisateurs.ExecuteScalar());
+
+                if (totalUtilisateurs > 0)
+                {
+                    taux = (double)totalParticipants / totalUtilisateurs;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors du calcul du taux de participation : " + ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return taux;
+        }
+
+
+        public static string GetEmailUtilisateur(int utilisateurId)
+        {
+            string email = "";
+            string query = "SELECT email FROM utilisateurs WHERE id = @id";
+
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
+                cmd.Parameters.AddWithValue("@id", utilisateurId);
+
+                object result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    email = result.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors de la récupération de l'email : " + ex.Message);
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return email;
+        }
+
+
+        public static bool ModifierUtilisateur(int utilisateurId, string nouveauNom, string nouveauPrenom, string nouvelEmail, string nouveauMdp)
+        {
+            string query;
+            MySqlCommand cmd;
+
+            try
+            {
+                OpenConnection();
+
+                if (string.IsNullOrWhiteSpace(nouveauMdp))
+                {
+                    // Mise à jour sans modifier le mot de passe
+                    query = "UPDATE utilisateurs SET nom = @Nom, prenom = @Prenom, email = @Email WHERE id = @Id";
+                    cmd = new MySqlCommand(query, GetConnection());
+                }
+                else
+                {
+                    // Mise à jour avec le mot de passe
+                    query = "UPDATE utilisateurs SET nom = @Nom, prenom = @Prenom, email = @Email, mdp = @MotDePasse WHERE id = @Id";
+                    cmd = new MySqlCommand(query, GetConnection());
+                    cmd.Parameters.AddWithValue("@MotDePasse", nouveauMdp);
+                }
+
+                // Ajout des paramètres
+                cmd.Parameters.AddWithValue("@Nom", nouveauNom);
+                cmd.Parameters.AddWithValue("@Prenom", nouveauPrenom);
+                cmd.Parameters.AddWithValue("@Email", nouvelEmail);
+                cmd.Parameters.AddWithValue("@Id", utilisateurId);
+
+                int result = cmd.ExecuteNonQuery();
+                CloseConnection();
+
+                return result > 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors de la mise à jour : " + ex.Message);
+                return false;
+            }
+        }
+
+
+        public static string[] GetInfosUtilisateur(int utilisateurId)
+        {
+            string query = "SELECT nom, prenom, email FROM utilisateurs WHERE id = @id";
+            string[] infos = new string[3];
+
+            try
+            {
+                OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
+                cmd.Parameters.AddWithValue("@id", utilisateurId);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read()) // Si on trouve l'utilisateur
+                {
+                    infos[0] = reader["nom"].ToString();    // Nom
+                    infos[1] = reader["prenom"].ToString(); // Prénom
+                    infos[2] = reader["email"].ToString();  // Email
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération des infos utilisateur : {ex.Message}");
+            }
+            finally
+            {
+                CloseConnection();
+            }
+
+            return infos;
+        }
+
+
 
     }
 }

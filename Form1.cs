@@ -70,25 +70,6 @@ namespace AppLegeayControles
             
         }
 
-
-
-        private void btInscription_Click(object sender, EventArgs e)
-        {
-            string email = tbMail.Text;
-            string motDePasse = tbMDP.Text;
-
-            bool estInscrit = BDD.InscrireUtilisateur(email, motDePasse);
-
-            if (estInscrit)
-            {
-                MessageBox.Show("Inscription réussie !");
-            }
-            else
-            {
-                MessageBox.Show("Une erreur s'est produite lors de l'inscription.");
-            }
-        }
-
         private void tbMail_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -182,6 +163,13 @@ namespace AppLegeayControles
             {
                 MessageBox.Show("Email ou mot de passe incorrect.");
             }
+        }
+
+        private void btInscription_Click_1(object sender, EventArgs e)
+        {
+            FormInscription formInscription = new FormInscription();
+            formInscription.ShowDialog(); // Ouvre le formulaire d'inscription
+
         }
     }
 }

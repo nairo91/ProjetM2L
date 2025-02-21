@@ -31,6 +31,7 @@
             this.btnContacts = new System.Windows.Forms.Button();
             this.btnEvenements = new System.Windows.Forms.Button();
             this.btnDeconnexion = new System.Windows.Forms.Button();
+            this.btnProfil = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnContacts
@@ -56,7 +57,7 @@
             // btnDeconnexion
             // 
             this.btnDeconnexion.BackColor = System.Drawing.Color.Firebrick;
-            this.btnDeconnexion.Location = new System.Drawing.Point(294, 332);
+            this.btnDeconnexion.Location = new System.Drawing.Point(445, 336);
             this.btnDeconnexion.Name = "btnDeconnexion";
             this.btnDeconnexion.Size = new System.Drawing.Size(167, 87);
             this.btnDeconnexion.TabIndex = 2;
@@ -64,12 +65,24 @@
             this.btnDeconnexion.UseVisualStyleBackColor = false;
             this.btnDeconnexion.Click += new System.EventHandler(this.btnDeconnexion_Click);
             // 
+            // btnProfil
+            // 
+            this.btnProfil.BackColor = System.Drawing.Color.Firebrick;
+            this.btnProfil.Location = new System.Drawing.Point(152, 336);
+            this.btnProfil.Name = "btnProfil";
+            this.btnProfil.Size = new System.Drawing.Size(167, 87);
+            this.btnProfil.TabIndex = 3;
+            this.btnProfil.Text = "Mettre a jour info";
+            this.btnProfil.UseVisualStyleBackColor = false;
+            this.btnProfil.Click += new System.EventHandler(this.btnProfil_Click);
+            // 
             // FormSelection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Teal;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnProfil);
             this.Controls.Add(this.btnDeconnexion);
             this.Controls.Add(this.btnEvenements);
             this.Controls.Add(this.btnContacts);
@@ -84,5 +97,6 @@
         private Button btnContacts;
         private Button btnEvenements;
         private Button btnDeconnexion;
+        private Button btnProfil;
     }
 }

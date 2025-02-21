@@ -46,6 +46,9 @@
             this.btnModifier = new System.Windows.Forms.Button();
             this.btnDesinscrire = new System.Windows.Forms.Button();
             this.btnInscrire = new System.Windows.Forms.Button();
+            this.btnMesEvenements = new System.Windows.Forms.Button();
+            this.btnEvenementsCrees = new System.Windows.Forms.Button();
+            this.cbFiltre = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numParticipants)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvenements)).BeginInit();
             this.SuspendLayout();
@@ -92,7 +95,7 @@
             // 
             // btnAjouter
             // 
-            this.btnAjouter.Location = new System.Drawing.Point(12, 429);
+            this.btnAjouter.Location = new System.Drawing.Point(13, 396);
             this.btnAjouter.Name = "btnAjouter";
             this.btnAjouter.Size = new System.Drawing.Size(159, 37);
             this.btnAjouter.TabIndex = 5;
@@ -102,7 +105,7 @@
             // 
             // btnSupprimer
             // 
-            this.btnSupprimer.Location = new System.Drawing.Point(206, 429);
+            this.btnSupprimer.Location = new System.Drawing.Point(106, 447);
             this.btnSupprimer.Name = "btnSupprimer";
             this.btnSupprimer.Size = new System.Drawing.Size(159, 37);
             this.btnSupprimer.TabIndex = 6;
@@ -113,19 +116,19 @@
             // dgvEvenements
             // 
             this.dgvEvenements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEvenements.Location = new System.Drawing.Point(413, 118);
+            this.dgvEvenements.Location = new System.Drawing.Point(400, 23);
             this.dgvEvenements.Name = "dgvEvenements";
             this.dgvEvenements.ReadOnly = true;
             this.dgvEvenements.RowHeadersWidth = 51;
             this.dgvEvenements.RowTemplate.Height = 29;
-            this.dgvEvenements.Size = new System.Drawing.Size(471, 252);
+            this.dgvEvenements.Size = new System.Drawing.Size(712, 252);
             this.dgvEvenements.TabIndex = 7;
             this.dgvEvenements.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEvenements_CellClick);
             this.dgvEvenements.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEvenements_CellContentClick);
             // 
             // btnAfficher
             // 
-            this.btnAfficher.Location = new System.Drawing.Point(426, 376);
+            this.btnAfficher.Location = new System.Drawing.Point(514, 281);
             this.btnAfficher.Name = "btnAfficher";
             this.btnAfficher.Size = new System.Drawing.Size(85, 37);
             this.btnAfficher.TabIndex = 8;
@@ -182,7 +185,7 @@
             // btnRetour
             // 
             this.btnRetour.BackColor = System.Drawing.Color.Firebrick;
-            this.btnRetour.Location = new System.Drawing.Point(701, 429);
+            this.btnRetour.Location = new System.Drawing.Point(1027, 447);
             this.btnRetour.Name = "btnRetour";
             this.btnRetour.Size = new System.Drawing.Size(159, 37);
             this.btnRetour.TabIndex = 14;
@@ -192,7 +195,7 @@
             // 
             // btnModifier
             // 
-            this.btnModifier.Location = new System.Drawing.Point(426, 429);
+            this.btnModifier.Location = new System.Drawing.Point(198, 396);
             this.btnModifier.Name = "btnModifier";
             this.btnModifier.Size = new System.Drawing.Size(159, 37);
             this.btnModifier.TabIndex = 15;
@@ -202,7 +205,7 @@
             // 
             // btnDesinscrire
             // 
-            this.btnDesinscrire.Location = new System.Drawing.Point(756, 376);
+            this.btnDesinscrire.Location = new System.Drawing.Point(844, 281);
             this.btnDesinscrire.Name = "btnDesinscrire";
             this.btnDesinscrire.Size = new System.Drawing.Size(104, 37);
             this.btnDesinscrire.TabIndex = 17;
@@ -212,7 +215,7 @@
             // 
             // btnInscrire
             // 
-            this.btnInscrire.Location = new System.Drawing.Point(599, 376);
+            this.btnInscrire.Location = new System.Drawing.Point(687, 281);
             this.btnInscrire.Name = "btnInscrire";
             this.btnInscrire.Size = new System.Drawing.Size(93, 37);
             this.btnInscrire.TabIndex = 16;
@@ -220,12 +223,49 @@
             this.btnInscrire.UseVisualStyleBackColor = true;
             this.btnInscrire.Click += new System.EventHandler(this.button1_Click);
             // 
+            // btnMesEvenements
+            // 
+            this.btnMesEvenements.Location = new System.Drawing.Point(571, 391);
+            this.btnMesEvenements.Name = "btnMesEvenements";
+            this.btnMesEvenements.Size = new System.Drawing.Size(141, 42);
+            this.btnMesEvenements.TabIndex = 18;
+            this.btnMesEvenements.Text = "Mes participations";
+            this.btnMesEvenements.UseVisualStyleBackColor = true;
+            this.btnMesEvenements.Click += new System.EventHandler(this.btnMesEvenements_Click);
+            // 
+            // btnEvenementsCrees
+            // 
+            this.btnEvenementsCrees.Location = new System.Drawing.Point(753, 391);
+            this.btnEvenementsCrees.Name = "btnEvenementsCrees";
+            this.btnEvenementsCrees.Size = new System.Drawing.Size(141, 42);
+            this.btnEvenementsCrees.TabIndex = 19;
+            this.btnEvenementsCrees.Text = "Mes évènements";
+            this.btnEvenementsCrees.UseVisualStyleBackColor = true;
+            this.btnEvenementsCrees.Click += new System.EventHandler(this.btnEvenementsCrees_Click);
+            // 
+            // cbFiltre
+            // 
+            this.cbFiltre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbFiltre.FormattingEnabled = true;
+            this.cbFiltre.Items.AddRange(new object[] {
+            "Tous",
+            "A venir",
+            "Passés"});
+            this.cbFiltre.Location = new System.Drawing.Point(1118, 39);
+            this.cbFiltre.Name = "cbFiltre";
+            this.cbFiltre.Size = new System.Drawing.Size(151, 28);
+            this.cbFiltre.TabIndex = 20;
+            this.cbFiltre.SelectedIndexChanged += new System.EventHandler(this.cbFiltre_SelectedIndexChanged);
+            // 
             // FormEvenement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkCyan;
-            this.ClientSize = new System.Drawing.Size(896, 496);
+            this.ClientSize = new System.Drawing.Size(1286, 496);
+            this.Controls.Add(this.cbFiltre);
+            this.Controls.Add(this.btnEvenementsCrees);
+            this.Controls.Add(this.btnMesEvenements);
             this.Controls.Add(this.btnDesinscrire);
             this.Controls.Add(this.btnInscrire);
             this.Controls.Add(this.btnModifier);
@@ -273,5 +313,8 @@
         private Button btnModifier;
         private Button btnDesinscrire;
         private Button btnInscrire;
+        private Button btnMesEvenements;
+        private Button btnEvenementsCrees;
+        private ComboBox cbFiltre;
     }
 }

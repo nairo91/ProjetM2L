@@ -50,3 +50,6 @@ C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\n
 C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\AppContactEvenementM2Lv5.genruntimeconfig.cache
 C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\ref\AppContactEvenementM2Lv5.dll
 C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\AppContactEvenementM2Lv5.FormAdmin.resources
+C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\AppContactEvenementM2Lv5.FormStatistiques.resources
+C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\AppContactEvenementM2Lv5.FormProfil.resources
+C:\Users\orian\Downloads\AppContactEvenementM2Lv5\AppLegeayControles\obj\Debug\net6.0-windows\AppContactEvenementM2Lv5.FormInscription.resources

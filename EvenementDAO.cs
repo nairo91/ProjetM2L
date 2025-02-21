@@ -16,8 +16,8 @@ namespace AppLegeayControles
         // Ajouter un événement
         public void AjouterEvenement(Evenement evt, int createurId)
         {
-            //string query = "INSERT INTO evenements (nom, date, lieu, description, nb_max_participants) VALUES (@nom, @date, @lieu, @description, @nbMaxParticipants)";
-            string query = "INSERT INTO evenements (nom, date, lieu, description, nb_max_participants, createur_id) VALUES (@nom, @date, @lieu, @description, @nbMaxParticipants, @createurId)";
+            string query = "INSERT INTO evenements (nom, date, lieu, description, nb_max_participants, createur_id) " +
+                    "VALUES (@nom, @date, @lieu, @description, @nbMaxParticipants, @createurId)";
 
             try
             {
@@ -28,9 +28,20 @@ namespace AppLegeayControles
                 cmd.Parameters.AddWithValue("@lieu", evt.Lieu);
                 cmd.Parameters.AddWithValue("@description", evt.Description);
                 cmd.Parameters.AddWithValue("@nbMaxParticipants", evt.NbMaxParticipants ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@createurId", createurId); // Ajout du créateur
+                cmd.Parameters.AddWithValue("@createurId", createurId);
 
                 cmd.ExecuteNonQuery();
+
+                // Récupérer l'ID de l'événement ajouté
+                int evenementId = (int)cmd.LastInsertedId;
+
+                // Inscription automatique du créateur à son propre événement
+                string inscriptionQuery = "INSERT INTO inscriptions (utilisateur_id, evenement_id) VALUES (@utilisateurId, @evenementId)";
+                MySqlCommand inscriptionCmd = new MySqlCommand(inscriptionQuery, BDD.GetConnection());
+                inscriptionCmd.Parameters.AddWithValue("@utilisateurId", createurId);
+                inscriptionCmd.Parameters.AddWithValue("@evenementId", evenementId);
+                inscriptionCmd.ExecuteNonQuery();
+
                 BDD.CloseConnection();
             }
             catch (Exception ex)
@@ -257,5 +268,79 @@ namespace AppLegeayControles
                 return 0;
             }
         }
+
+        public List<Evenement> ObtenirMesEvenements(int utilisateurId)
+        {
+            List<Evenement> evenements = new List<Evenement>();
+            string query = @"
+        SELECT e.* FROM evenements e
+        INNER JOIN inscriptions i ON e.id = i.evenement_id
+        WHERE i.utilisateur_id = @id";
+
+            try
+            {
+                BDD.OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, BDD.GetConnection());
+                cmd.Parameters.AddWithValue("@id", utilisateurId);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    evenements.Add(new Evenement
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Nom = reader["nom"].ToString(),
+                        Date = Convert.ToDateTime(reader["date"]),
+                        Lieu = reader["lieu"].ToString(),
+                        Description = reader["description"].ToString(),
+                        NbMaxParticipants = reader["nb_max_participants"] != DBNull.Value ? Convert.ToInt32(reader["nb_max_participants"]) : (int?)null
+                    });
+                }
+                reader.Close();
+                BDD.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération des événements inscrits : {ex.Message}");
+            }
+
+            return evenements;
+        }
+
+        public List<Evenement> ObtenirEvenementsCrees(int utilisateurId)
+        {
+            List<Evenement> evenements = new List<Evenement>();
+            string query = "SELECT * FROM evenements WHERE createur_id = @id";
+
+            try
+            {
+                BDD.OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, BDD.GetConnection());
+                cmd.Parameters.AddWithValue("@id", utilisateurId);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    evenements.Add(new Evenement
+                    {
+                        Id = Convert.ToInt32(reader["id"]),
+                        Nom = reader["nom"].ToString(),
+                        Date = Convert.ToDateTime(reader["date"]),
+                        Lieu = reader["lieu"].ToString(),
+                        Description = reader["description"].ToString(),
+                        NbMaxParticipants = reader["nb_max_participants"] != DBNull.Value ? Convert.ToInt32(reader["nb_max_participants"]) : (int?)null
+                    });
+                }
+                reader.Close();
+                BDD.CloseConnection();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la récupération des événements créés : {ex.Message}");
+            }
+
+            return evenements;
+        }
+
     }
 }

@@ -14,6 +14,9 @@ namespace AppContactEvenementM2Lv5
 {
     public partial class FormAdmin : Form
     {
+        private int utilisateurConnecteId;
+
+
         public FormAdmin()
         {
             InitializeComponent();
@@ -21,14 +24,34 @@ namespace AppContactEvenementM2Lv5
 
         private void FormAdmin_Load(object sender, EventArgs e)
         {
+            MessageBox.Show("FormAdmin_Load() s'exécute !");
             ChargerUtilisateurs();
+            btnStatistiques.Visible = true; // S'assurer qu'il est affiché
         }
 
 
         private void ChargerUtilisateurs()
         {
-            dgvUtilisateurs.DataSource = BDD.GetAllUtilisateurs(); // Charge les utilisateurs depuis la base de données
-            dgvUtilisateurs.Columns["id"].Visible = false; // Masquer la colonne ID si nécessaire
+            DataTable utilisateurs = BDD.GetAllUtilisateurs(); // Récupère les utilisateurs depuis la BDD
+
+            // Debug pour voir si les utilisateurs sont récupérés
+            //MessageBox.Show($"Nombre d'utilisateurs récupérés : {utilisateurs.Rows.Count}");
+
+            if (utilisateurs.Rows.Count > 0)
+            {
+                dgvUtilisateurs.AutoGenerateColumns = true; // Active la génération automatique des colonnes
+                dgvUtilisateurs.DataSource = utilisateurs; // Associe les données au DataGridView
+                dgvUtilisateurs.Refresh();
+                dgvUtilisateurs.Update();
+                dgvUtilisateurs.Columns["id"].Visible = false; // Masquer l'ID si nécessaire
+                dgvUtilisateurs.Columns["nom"].HeaderText = "Nom";
+                dgvUtilisateurs.Columns["prenom"].HeaderText = "Prénom";
+
+            }
+            else
+            {
+                MessageBox.Show("Aucun utilisateur trouvé dans la base de données.");
+            }
         }
 
 
@@ -59,6 +82,14 @@ namespace AppContactEvenementM2Lv5
                 int utilisateurId = Convert.ToInt32(dgvUtilisateurs.SelectedRows[0].Cells["id"].Value);
                 string roleActuel = dgvUtilisateurs.SelectedRows[0].Cells["role"].Value.ToString();
 
+                // Vérifie que l'admin ne peut pas se rétrograder lui-même AVANT de modifier le rôle
+                if (utilisateurId == utilisateurConnecteId && roleActuel == "admin")
+                {
+                    MessageBox.Show("Vous ne pouvez pas vous rétrograder vous-même !");
+                    return;
+                }
+
+                // Changer le rôle (admin <-> user)
                 string nouveauRole = roleActuel == "admin" ? "user" : "admin";
                 BDD.ChangerRoleUtilisateur(utilisateurId, nouveauRole);
 
@@ -69,6 +100,29 @@ namespace AppContactEvenementM2Lv5
             {
                 MessageBox.Show("Veuillez sélectionner un utilisateur pour changer son rôle.");
             }
+        }
+
+        private void btnRafraichir_Click(object sender, EventArgs e)
+        {
+            ChargerUtilisateurs();
+        }
+
+        private void dgvUtilisateurs_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void btnStatistiques_Click(object sender, EventArgs e)
+        {
+            FormStatistiques formStatistiques = new FormStatistiques();
+            formStatistiques.ShowDialog(); // Ouvre la fenêtre en mode modal
+        }
+
+        private void btnFermer_Click(object sender, EventArgs e)
+        {
+            Form1 formLogin = new Form1();
+            formLogin.Show();
+            this.Close();
         }
     }
 }

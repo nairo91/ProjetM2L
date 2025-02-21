@@ -324,70 +324,51 @@ namespace AppLegeayControles
 
         private void btnAfficherContact_Click_1(object sender, EventArgs e)
         {
-           // MessageBox.Show($"ID utilisateur connecté : {utilisateurConnecteId}");
-            int utilisateurId = utilisateurConnecteId;
-
-            if (utilisateurId == -1)
+            if (dataGridView1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Erreur lors de la récupération de l'ID utilisateur.");
+                MessageBox.Show("Veuillez sélectionner un contact à modifier.");
                 return;
             }
 
-            string query = "SELECT nom, telephone, email, adresse FROM contacts WHERE utilisateur_id = @utilisateurId";
+            // Vérification si la colonne "id" existe et a une valeur valide
+            if (dataGridView1.SelectedRows[0].Cells["id"].Value == null ||
+                string.IsNullOrWhiteSpace(dataGridView1.SelectedRows[0].Cells["id"].Value.ToString()))
+            {
+                MessageBox.Show("Erreur : l'ID du contact est introuvable !");
+                return;
+            }
 
+            int contactId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["id"].Value);
+            string nom = txtNom.Text;
+            string telephone = txtTelephone.Text;
+            string email = txtEmail.Text;
+            string adresse = txtAdresse.Text;
 
-            //MessageBox.Show($"Requête SQL exécutée : {query} avec utilisateurId = {utilisateurConnecteId}");
-
-
-            
+            string query = "UPDATE contacts SET nom = @nom, telephone = @telephone, email = @email, adresse = @adresse WHERE id = @contactId";
 
             try
             {
                 MySqlConnection conn = BDD.GetConnection();
-                if (conn.State == System.Data.ConnectionState.Closed)
+                if (conn.State == ConnectionState.Closed)
                 {
                     conn.Open();
                 }
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@utilisateurId", utilisateurId);
+                cmd.Parameters.AddWithValue("@nom", nom);
+                cmd.Parameters.AddWithValue("@telephone", telephone);
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@adresse", adresse);
+                cmd.Parameters.AddWithValue("@contactId", contactId);
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                dataGridView1.AutoGenerateColumns = true;
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = dt;
-
-                adapter.Fill(dt);
-
-               // MessageBox.Show(dt.Rows[0]["nom"].ToString());
-                // Vérification du nombre de lignes retournées
-               // MessageBox.Show($"Nombre de contacts récupérés : {dt.Rows.Count}");
-
-                if (dt.Rows.Count > 0)
+                int result = cmd.ExecuteNonQuery();
+                if (result > 0)
                 {
-                    dataGridView1.DataSource = dt;
-                    dataGridView1.AutoGenerateColumns = true;
-                    dataGridView1.DataSource = null;
-                    dataGridView1.DataSource = dt;
-                    dataGridView1.Refresh();
-                 //   MessageBox.Show($"Nombre de lignes chargées : {dt.Rows.Count}");
-
-
-
-
-
-                    
-
-                    dataGridView1.Refresh();
-                    dataGridView1.Update();
-                    string columns = string.Join(", ", dt.Columns.Cast<DataColumn>().Select(col => col.ColumnName));
-                   // MessageBox.Show("Colonnes du DataTable : " + columns);
-
+                    MessageBox.Show("Contact modifié avec succès !");
                 }
                 else
                 {
-                    MessageBox.Show("Aucun contact trouvé pour cet utilisateur.");
+                    MessageBox.Show("Erreur lors de la modification du contact.");
                 }
 
                 BDD.CloseConnection();

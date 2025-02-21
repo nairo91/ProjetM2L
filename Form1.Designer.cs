@@ -92,6 +92,7 @@
             this.btInscription.TabIndex = 5;
             this.btInscription.Text = "Inscription";
             this.btInscription.UseVisualStyleBackColor = false;
+            this.btInscription.Click += new System.EventHandler(this.btInscription_Click_1);
             // 
             // btnQuitter
             // 
