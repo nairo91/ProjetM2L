@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.Data;
+
 
 
 namespace AppLegeayControles
@@ -341,6 +343,44 @@ namespace AppLegeayControles
 
             return evenements;
         }
+
+        public DataTable ObtenirStatistiquesEvenements()
+        {
+            DataTable dt = new DataTable();
+            string query = @"
+        SELECT 
+            e.nom AS 'Nom de l''événement',
+            COUNT(i.utilisateur_id) AS 'Nombre de participants',
+            e.nb_max_participants AS 'Places disponibles',
+            CASE 
+                WHEN e.nb_max_participants IS NULL OR e.nb_max_participants = 0 THEN 'N/A'
+                ELSE CONCAT(ROUND((COUNT(i.utilisateur_id) / e.nb_max_participants) * 100, 2), '%') 
+            END AS 'Taux de participation'
+        FROM evenements e
+        LEFT JOIN inscriptions i ON e.id = i.evenement_id
+        GROUP BY e.nom, e.nb_max_participants
+        ORDER BY COUNT(i.utilisateur_id) DESC";
+
+            try
+            {
+                BDD.OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(query, BDD.GetConnection());
+                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors de la récupération des statistiques : " + ex.Message);
+            }
+            finally
+            {
+                BDD.CloseConnection();
+            }
+
+            return dt;
+        }
+
+
 
     }
 }

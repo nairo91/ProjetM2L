@@ -49,6 +49,7 @@
             this.btnMesEvenements = new System.Windows.Forms.Button();
             this.btnEvenementsCrees = new System.Windows.Forms.Button();
             this.cbFiltre = new System.Windows.Forms.ComboBox();
+            this.btnStat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numParticipants)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEvenements)).BeginInit();
             this.SuspendLayout();
@@ -249,7 +250,8 @@
             this.cbFiltre.FormattingEnabled = true;
             this.cbFiltre.Items.AddRange(new object[] {
             "Tous",
-            "A venir",
+            "À venir",
+            "En cours",
             "Passés"});
             this.cbFiltre.Location = new System.Drawing.Point(1118, 39);
             this.cbFiltre.Name = "cbFiltre";
@@ -257,12 +259,23 @@
             this.cbFiltre.TabIndex = 20;
             this.cbFiltre.SelectedIndexChanged += new System.EventHandler(this.cbFiltre_SelectedIndexChanged);
             // 
+            // btnStat
+            // 
+            this.btnStat.Location = new System.Drawing.Point(956, 387);
+            this.btnStat.Name = "btnStat";
+            this.btnStat.Size = new System.Drawing.Size(141, 50);
+            this.btnStat.TabIndex = 21;
+            this.btnStat.Text = "Statistiques par évènement";
+            this.btnStat.UseVisualStyleBackColor = true;
+            this.btnStat.Click += new System.EventHandler(this.btnStat_Click);
+            // 
             // FormEvenement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkCyan;
             this.ClientSize = new System.Drawing.Size(1286, 496);
+            this.Controls.Add(this.btnStat);
             this.Controls.Add(this.cbFiltre);
             this.Controls.Add(this.btnEvenementsCrees);
             this.Controls.Add(this.btnMesEvenements);
@@ -316,5 +329,6 @@
         private Button btnMesEvenements;
         private Button btnEvenementsCrees;
         private ComboBox cbFiltre;
+        private Button btnStat;
     }
 }

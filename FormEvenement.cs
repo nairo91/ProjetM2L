@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppContactEvenementM2Lv5;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -27,52 +28,61 @@ namespace AppLegeayControles
 
 
         // Charger les événements dans le DataGridView
-        private void ChargerEvenements(string filtreStatut = "Tous")
+        // Charger les événements dans le DataGridView
+        private void ChargerEvenements(string filtre = "Tous")
         {
+            // Récupère tous les événements
             List<Evenement> evenements = evenementDAO.ObtenirEvenements();
 
-            // ✅ Filtrer les événements en fonction du statut sélectionné
-            DateTime today = DateTime.Today;
-            switch (filtreStatut)
-            {
-                case "À venir":
-                    evenements = evenements.Where(e => e.Date >= DateTime.Now).ToList();
-                    break;
-
-                case "Passés":
-                    evenements = evenements.Where(e => e.Date < today).ToList();
-                    break;
-                
-                default:
-                    break; // "Tous" => aucun filtre
-            }
-
-            // ✅ Trier les événements par date ascendante (plus proche en premier)
+            // Trie les événements par date (du plus récent au plus ancien)
             evenements = evenements.OrderBy(e => e.Date).ToList();
 
-            // ✅ Mettre à jour le DataGridView
+            // 🔥 Correction des filtres 🔥
+            DateTime aujourdHui = DateTime.Today; // Date actuelle sans heure
+
+            if (filtre == "À venir")
+            {
+                // ✅ Filtre les événements STRICTEMENT après aujourd'hui
+                evenements = evenements.Where(e => e.Date >= aujourdHui.AddDays(1)).ToList();
+            }
+            else if (filtre == "En cours")
+            {
+                // ✅ Filtre les événements qui ont LIEU AUJOURD'HUI
+                evenements = evenements.Where(e => e.Date.Date == aujourdHui).ToList();
+            }
+            else if (filtre == "Passés")
+            {
+                // ✅ Filtre les événements STRICTEMENT avant aujourd'hui
+                evenements = evenements.Where(e => e.Date.Date < aujourdHui).ToList();
+            }
+
+            // Affecte les données filtrées et triées au DataGridView
             dgvEvenements.DataSource = evenements;
 
-            // ✅ Vérifier si la colonne "NombreParticipants" existe déjà, sinon l'ajouter
+            // Vérifie si la colonne "NombreParticipants" existe déjà, sinon l'ajouter
             if (!dgvEvenements.Columns.Contains("NombreParticipants"))
             {
                 dgvEvenements.Columns.Add("NombreParticipants", "Participants");
             }
 
-            // ✅ Mettre à jour la colonne "NombreParticipants" avec le nombre de participants
+            // Met à jour la colonne "NombreParticipants"
             foreach (DataGridViewRow row in dgvEvenements.Rows)
             {
-                if (row.Cells["Id"].Value != null) // Éviter les erreurs
+                if (row.Cells["Id"].Value != null)
                 {
                     int evenementId = Convert.ToInt32(row.Cells["Id"].Value);
                     row.Cells["NombreParticipants"].Value = evenementDAO.NombreParticipants(evenementId);
                 }
             }
 
-            // ✅ Masquer l'ID et ajuster la taille des colonnes
+            // Masquer l'ID et ajuster la taille des colonnes
             dgvEvenements.Columns["Id"].Visible = false;
             dgvEvenements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
+
+
+
+
 
 
 
@@ -319,8 +329,17 @@ namespace AppLegeayControles
 
         private void cbFiltre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string filtreSelectionne = cbFiltre.SelectedItem.ToString();
-            ChargerEvenements(filtreSelectionne); // Recharger avec le filtre choisi
+            if (cbFiltre.SelectedItem != null) // ✅ Sécurisation contre les erreurs
+            {
+                ChargerEvenements(cbFiltre.SelectedItem.ToString());
+            }
+
+        }
+
+        private void btnStat_Click(object sender, EventArgs e)
+        {
+            FormStatistiquesEvenement formStats = new FormStatistiquesEvenement();  
+            formStats.Show();  
         }
     }
 }

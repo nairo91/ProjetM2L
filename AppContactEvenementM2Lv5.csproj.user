@@ -25,5 +25,8 @@
     <Compile Update="FormStatistiques.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormStatistiquesEvenement.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
