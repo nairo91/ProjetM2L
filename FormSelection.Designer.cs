@@ -42,6 +42,7 @@
             this.btnContacts.TabIndex = 0;
             this.btnContacts.Text = "Contact";
             this.btnContacts.UseVisualStyleBackColor = true;
+            this.btnContacts.Visible = false;
             this.btnContacts.Click += new System.EventHandler(this.btnContacts_Click);
             // 
             // btnEvenements
