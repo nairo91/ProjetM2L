@@ -31,6 +31,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvStats = new System.Windows.Forms.DataGridView();
             this.BtnFermer = new System.Windows.Forms.Button();
+            this.btnExportPdf = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStats)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,12 +70,24 @@
             this.BtnFermer.UseVisualStyleBackColor = false;
             this.BtnFermer.Click += new System.EventHandler(this.BtnFermer_Click);
             // 
+            // btnExportPdf
+            // 
+            this.btnExportPdf.BackColor = System.Drawing.Color.IndianRed;
+            this.btnExportPdf.Location = new System.Drawing.Point(208, 424);
+            this.btnExportPdf.Name = "btnExportPdf";
+            this.btnExportPdf.Size = new System.Drawing.Size(177, 60);
+            this.btnExportPdf.TabIndex = 2;
+            this.btnExportPdf.Text = "Exporter en PDF";
+            this.btnExportPdf.UseVisualStyleBackColor = false;
+            this.btnExportPdf.Click += new System.EventHandler(this.btnExportPdf_Click);
+            // 
             // FormStatistiquesEvenement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 23F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(953, 510);
+            this.Controls.Add(this.btnExportPdf);
             this.Controls.Add(this.BtnFermer);
             this.Controls.Add(this.dgvStats);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -90,5 +103,6 @@
 
         private DataGridView dgvStats;
         private Button BtnFermer;
+        private Button btnExportPdf;
     }
 }
