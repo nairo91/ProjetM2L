@@ -56,62 +56,74 @@
             // 
             // txtNom
             // 
-            this.txtNom.Location = new System.Drawing.Point(144, 44);
+            this.txtNom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNom.Location = new System.Drawing.Point(165, 45);
             this.txtNom.Name = "txtNom";
-            this.txtNom.Size = new System.Drawing.Size(155, 27);
+            this.txtNom.Size = new System.Drawing.Size(155, 30);
             this.txtNom.TabIndex = 0;
             this.txtNom.TextChanged += new System.EventHandler(this.txtNom_TextChanged);
             // 
             // txtLieu
             // 
-            this.txtLieu.Location = new System.Drawing.Point(99, 180);
+            this.txtLieu.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtLieu.Location = new System.Drawing.Point(69, 185);
             this.txtLieu.Name = "txtLieu";
-            this.txtLieu.Size = new System.Drawing.Size(155, 27);
+            this.txtLieu.Size = new System.Drawing.Size(155, 30);
             this.txtLieu.TabIndex = 1;
             this.txtLieu.TextChanged += new System.EventHandler(this.txtLieu_TextChanged);
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(110, 248);
+            this.txtDescription.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtDescription.Location = new System.Drawing.Point(123, 249);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(155, 27);
+            this.txtDescription.Size = new System.Drawing.Size(155, 60);
             this.txtDescription.TabIndex = 2;
             // 
             // dtpDate
             // 
-            this.dtpDate.Location = new System.Drawing.Point(144, 118);
+            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpDate.Location = new System.Drawing.Point(163, 123);
             this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(250, 27);
+            this.dtpDate.Size = new System.Drawing.Size(231, 30);
             this.dtpDate.TabIndex = 3;
             this.dtpDate.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // numParticipants
             // 
-            this.numParticipants.Location = new System.Drawing.Point(171, 337);
+            this.numParticipants.Location = new System.Drawing.Point(194, 337);
             this.numParticipants.Name = "numParticipants";
-            this.numParticipants.Size = new System.Drawing.Size(150, 27);
+            this.numParticipants.Size = new System.Drawing.Size(150, 30);
             this.numParticipants.TabIndex = 4;
             this.numParticipants.ValueChanged += new System.EventHandler(this.numParticipants_ValueChanged);
             // 
             // btnAjouter
             // 
+            this.btnAjouter.BackColor = System.Drawing.Color.Navy;
+            this.btnAjouter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAjouter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnAjouter.ForeColor = System.Drawing.Color.White;
             this.btnAjouter.Location = new System.Drawing.Point(13, 396);
             this.btnAjouter.Name = "btnAjouter";
             this.btnAjouter.Size = new System.Drawing.Size(159, 37);
             this.btnAjouter.TabIndex = 5;
             this.btnAjouter.Text = "Ajouter";
-            this.btnAjouter.UseVisualStyleBackColor = true;
+            this.btnAjouter.UseVisualStyleBackColor = false;
             this.btnAjouter.Click += new System.EventHandler(this.btnAjouter_Click_1);
             // 
             // btnSupprimer
             // 
-            this.btnSupprimer.Location = new System.Drawing.Point(106, 447);
+            this.btnSupprimer.BackColor = System.Drawing.Color.Navy;
+            this.btnSupprimer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSupprimer.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnSupprimer.ForeColor = System.Drawing.Color.White;
+            this.btnSupprimer.Location = new System.Drawing.Point(13, 447);
             this.btnSupprimer.Name = "btnSupprimer";
             this.btnSupprimer.Size = new System.Drawing.Size(159, 37);
             this.btnSupprimer.TabIndex = 6;
             this.btnSupprimer.Text = "Supprimer";
-            this.btnSupprimer.UseVisualStyleBackColor = true;
+            this.btnSupprimer.UseVisualStyleBackColor = false;
             this.btnSupprimer.Click += new System.EventHandler(this.btnSupprimer_Click_1);
             // 
             // dgvEvenements
@@ -129,12 +141,16 @@
             // 
             // btnAfficher
             // 
-            this.btnAfficher.Location = new System.Drawing.Point(514, 281);
+            this.btnAfficher.BackColor = System.Drawing.Color.Navy;
+            this.btnAfficher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAfficher.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnAfficher.ForeColor = System.Drawing.Color.White;
+            this.btnAfficher.Location = new System.Drawing.Point(1151, 209);
             this.btnAfficher.Name = "btnAfficher";
             this.btnAfficher.Size = new System.Drawing.Size(85, 37);
             this.btnAfficher.TabIndex = 8;
             this.btnAfficher.Text = "Afficher";
-            this.btnAfficher.UseVisualStyleBackColor = true;
+            this.btnAfficher.UseVisualStyleBackColor = false;
             this.btnAfficher.Click += new System.EventHandler(this.btnAfficher_Click);
             // 
             // lbNomEv
@@ -142,17 +158,16 @@
             this.lbNomEv.AutoSize = true;
             this.lbNomEv.Location = new System.Drawing.Point(12, 47);
             this.lbNomEv.Name = "lbNomEv";
-            this.lbNomEv.Size = new System.Drawing.Size(126, 20);
+            this.lbNomEv.Size = new System.Drawing.Size(147, 23);
             this.lbNomEv.TabIndex = 9;
             this.lbNomEv.Text = "Nom évènement :";
-            this.lbNomEv.Click += new System.EventHandler(this.lbNomEv_Click);
             // 
             // lbDate
             // 
             this.lbDate.AutoSize = true;
             this.lbDate.Location = new System.Drawing.Point(12, 123);
             this.lbDate.Name = "lbDate";
-            this.lbDate.Size = new System.Drawing.Size(125, 20);
+            this.lbDate.Size = new System.Drawing.Size(145, 23);
             this.lbDate.TabIndex = 10;
             this.lbDate.Text = "Date évènement :";
             // 
@@ -161,7 +176,7 @@
             this.lbLieu.AutoSize = true;
             this.lbLieu.Location = new System.Drawing.Point(13, 187);
             this.lbLieu.Name = "lbLieu";
-            this.lbLieu.Size = new System.Drawing.Size(43, 20);
+            this.lbLieu.Size = new System.Drawing.Size(50, 23);
             this.lbLieu.TabIndex = 11;
             this.lbLieu.Text = "Lieu :";
             // 
@@ -170,7 +185,7 @@
             this.lbDesc.AutoSize = true;
             this.lbDesc.Location = new System.Drawing.Point(12, 251);
             this.lbDesc.Name = "lbDesc";
-            this.lbDesc.Size = new System.Drawing.Size(92, 20);
+            this.lbDesc.Size = new System.Drawing.Size(105, 23);
             this.lbDesc.TabIndex = 12;
             this.lbDesc.Text = "Description :";
             // 
@@ -179,14 +194,17 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 339);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(153, 20);
+            this.label1.Size = new System.Drawing.Size(176, 23);
             this.label1.TabIndex = 13;
             this.label1.Text = "Nombre participants :";
             // 
             // btnRetour
             // 
             this.btnRetour.BackColor = System.Drawing.Color.Firebrick;
-            this.btnRetour.Location = new System.Drawing.Point(1027, 447);
+            this.btnRetour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRetour.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnRetour.ForeColor = System.Drawing.Color.White;
+            this.btnRetour.Location = new System.Drawing.Point(1091, 447);
             this.btnRetour.Name = "btnRetour";
             this.btnRetour.Size = new System.Drawing.Size(159, 37);
             this.btnRetour.TabIndex = 14;
@@ -196,52 +214,72 @@
             // 
             // btnModifier
             // 
+            this.btnModifier.BackColor = System.Drawing.Color.Navy;
+            this.btnModifier.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModifier.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnModifier.ForeColor = System.Drawing.Color.White;
             this.btnModifier.Location = new System.Drawing.Point(198, 396);
             this.btnModifier.Name = "btnModifier";
             this.btnModifier.Size = new System.Drawing.Size(159, 37);
             this.btnModifier.TabIndex = 15;
             this.btnModifier.Text = "Modifier";
-            this.btnModifier.UseVisualStyleBackColor = true;
+            this.btnModifier.UseVisualStyleBackColor = false;
             this.btnModifier.Click += new System.EventHandler(this.btnModifier_Click);
             // 
             // btnDesinscrire
             // 
-            this.btnDesinscrire.Location = new System.Drawing.Point(844, 281);
+            this.btnDesinscrire.BackColor = System.Drawing.Color.Navy;
+            this.btnDesinscrire.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDesinscrire.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnDesinscrire.ForeColor = System.Drawing.Color.White;
+            this.btnDesinscrire.Location = new System.Drawing.Point(738, 444);
             this.btnDesinscrire.Name = "btnDesinscrire";
-            this.btnDesinscrire.Size = new System.Drawing.Size(104, 37);
+            this.btnDesinscrire.Size = new System.Drawing.Size(145, 40);
             this.btnDesinscrire.TabIndex = 17;
             this.btnDesinscrire.Text = "Désinscrire";
-            this.btnDesinscrire.UseVisualStyleBackColor = true;
+            this.btnDesinscrire.UseVisualStyleBackColor = false;
             this.btnDesinscrire.Click += new System.EventHandler(this.btnDesinscrire_Click);
             // 
             // btnInscrire
             // 
-            this.btnInscrire.Location = new System.Drawing.Point(687, 281);
+            this.btnInscrire.BackColor = System.Drawing.Color.Navy;
+            this.btnInscrire.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInscrire.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnInscrire.ForeColor = System.Drawing.Color.White;
+            this.btnInscrire.Location = new System.Drawing.Point(738, 377);
             this.btnInscrire.Name = "btnInscrire";
-            this.btnInscrire.Size = new System.Drawing.Size(93, 37);
+            this.btnInscrire.Size = new System.Drawing.Size(145, 47);
             this.btnInscrire.TabIndex = 16;
             this.btnInscrire.Text = "S\'inscrire";
-            this.btnInscrire.UseVisualStyleBackColor = true;
+            this.btnInscrire.UseVisualStyleBackColor = false;
             this.btnInscrire.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnMesEvenements
             // 
-            this.btnMesEvenements.Location = new System.Drawing.Point(571, 391);
+            this.btnMesEvenements.BackColor = System.Drawing.Color.Navy;
+            this.btnMesEvenements.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMesEvenements.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnMesEvenements.ForeColor = System.Drawing.Color.White;
+            this.btnMesEvenements.Location = new System.Drawing.Point(555, 377);
             this.btnMesEvenements.Name = "btnMesEvenements";
-            this.btnMesEvenements.Size = new System.Drawing.Size(141, 42);
+            this.btnMesEvenements.Size = new System.Drawing.Size(141, 52);
             this.btnMesEvenements.TabIndex = 18;
             this.btnMesEvenements.Text = "Mes participations";
-            this.btnMesEvenements.UseVisualStyleBackColor = true;
+            this.btnMesEvenements.UseVisualStyleBackColor = false;
             this.btnMesEvenements.Click += new System.EventHandler(this.btnMesEvenements_Click);
             // 
             // btnEvenementsCrees
             // 
-            this.btnEvenementsCrees.Location = new System.Drawing.Point(753, 391);
+            this.btnEvenementsCrees.BackColor = System.Drawing.Color.Navy;
+            this.btnEvenementsCrees.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEvenementsCrees.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnEvenementsCrees.ForeColor = System.Drawing.Color.White;
+            this.btnEvenementsCrees.Location = new System.Drawing.Point(555, 444);
             this.btnEvenementsCrees.Name = "btnEvenementsCrees";
             this.btnEvenementsCrees.Size = new System.Drawing.Size(141, 42);
             this.btnEvenementsCrees.TabIndex = 19;
             this.btnEvenementsCrees.Text = "Mes évènements";
-            this.btnEvenementsCrees.UseVisualStyleBackColor = true;
+            this.btnEvenementsCrees.UseVisualStyleBackColor = false;
             this.btnEvenementsCrees.Click += new System.EventHandler(this.btnEvenementsCrees_Click);
             // 
             // cbFiltre
@@ -255,28 +293,30 @@
             "Passés"});
             this.cbFiltre.Location = new System.Drawing.Point(1118, 39);
             this.cbFiltre.Name = "cbFiltre";
-            this.cbFiltre.Size = new System.Drawing.Size(151, 28);
+            this.cbFiltre.Size = new System.Drawing.Size(151, 31);
             this.cbFiltre.TabIndex = 20;
             this.cbFiltre.SelectedIndexChanged += new System.EventHandler(this.cbFiltre_SelectedIndexChanged);
             // 
             // btnStat
             // 
-            this.btnStat.Location = new System.Drawing.Point(956, 387);
+            this.btnStat.BackColor = System.Drawing.Color.Navy;
+            this.btnStat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStat.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnStat.ForeColor = System.Drawing.Color.White;
+            this.btnStat.Location = new System.Drawing.Point(1126, 123);
             this.btnStat.Name = "btnStat";
-            this.btnStat.Size = new System.Drawing.Size(141, 50);
+            this.btnStat.Size = new System.Drawing.Size(143, 54);
             this.btnStat.TabIndex = 21;
             this.btnStat.Text = "Statistiques par évènement";
-            this.btnStat.UseVisualStyleBackColor = true;
+            this.btnStat.UseVisualStyleBackColor = false;
             this.btnStat.Click += new System.EventHandler(this.btnStat_Click);
             // 
             // FormEvenement
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkCyan;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(1286, 496);
-            this.Controls.Add(this.btnStat);
             this.Controls.Add(this.cbFiltre);
+            this.Controls.Add(this.btnStat);
             this.Controls.Add(this.btnEvenementsCrees);
             this.Controls.Add(this.btnMesEvenements);
             this.Controls.Add(this.btnDesinscrire);
@@ -297,6 +337,7 @@
             this.Controls.Add(this.txtDescription);
             this.Controls.Add(this.txtLieu);
             this.Controls.Add(this.txtNom);
+            this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Name = "FormEvenement";
             this.Text = "Les évènements";
             ((System.ComponentModel.ISupportInitialize)(this.numParticipants)).EndInit();
@@ -305,6 +346,7 @@
             this.PerformLayout();
 
         }
+
 
         #endregion
 

@@ -34,5 +34,9 @@ namespace AppContactEvenementM2Lv5
 
         }
 
+        private void BtnFermer_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

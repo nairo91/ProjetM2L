@@ -38,54 +38,69 @@
             // lblNbUtilisateurs
             // 
             this.lblNbUtilisateurs.AutoSize = true;
+            this.lblNbUtilisateurs.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNbUtilisateurs.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblNbUtilisateurs.Location = new System.Drawing.Point(36, 49);
             this.lblNbUtilisateurs.Name = "lblNbUtilisateurs";
-            this.lblNbUtilisateurs.Size = new System.Drawing.Size(158, 20);
+            this.lblNbUtilisateurs.Size = new System.Drawing.Size(158, 23);
             this.lblNbUtilisateurs.TabIndex = 0;
-            this.lblNbUtilisateurs.Text = "Nombre d\'utilisateurs :";
+            this.lblNbUtilisateurs.Text = "Nombre d'utilisateurs :";
             // 
             // lblNbEvenements
             // 
             this.lblNbEvenements.AutoSize = true;
+            this.lblNbEvenements.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblNbEvenements.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblNbEvenements.Location = new System.Drawing.Point(36, 110);
             this.lblNbEvenements.Name = "lblNbEvenements";
-            this.lblNbEvenements.Size = new System.Drawing.Size(166, 20);
+            this.lblNbEvenements.Size = new System.Drawing.Size(166, 23);
             this.lblNbEvenements.TabIndex = 1;
-            this.lblNbEvenements.Text = "Nombre d\'événements :";
+            this.lblNbEvenements.Text = "Nombre d'événements :";
             // 
             // lblTauxParticipation
             // 
             this.lblTauxParticipation.AutoSize = true;
+            this.lblTauxParticipation.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblTauxParticipation.ForeColor = System.Drawing.Color.DarkSlateGray;
             this.lblTauxParticipation.Location = new System.Drawing.Point(36, 173);
             this.lblTauxParticipation.Name = "lblTauxParticipation";
-            this.lblTauxParticipation.Size = new System.Drawing.Size(155, 20);
+            this.lblTauxParticipation.Size = new System.Drawing.Size(155, 23);
             this.lblTauxParticipation.TabIndex = 2;
             this.lblTauxParticipation.Text = "Taux de participation :";
             // 
             // btnRafraichirStats
             // 
+            this.btnRafraichirStats.BackColor = System.Drawing.Color.Navy;
+            this.btnRafraichirStats.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRafraichirStats.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnRafraichirStats.ForeColor = System.Drawing.Color.White;
             this.btnRafraichirStats.Location = new System.Drawing.Point(45, 357);
             this.btnRafraichirStats.Name = "btnRafraichirStats";
             this.btnRafraichirStats.Size = new System.Drawing.Size(125, 29);
             this.btnRafraichirStats.TabIndex = 3;
-            this.btnRafraichirStats.Text = "Rafraichir Stat";
-            this.btnRafraichirStats.UseVisualStyleBackColor = true;
+            this.btnRafraichirStats.Text = "Rafraîchir stat";
+            this.btnRafraichirStats.UseVisualStyleBackColor = false;
             this.btnRafraichirStats.Click += new System.EventHandler(this.btnRafraichirStats_Click);
             // 
             // btnFermer
             // 
+            this.btnFermer.BackColor = System.Drawing.Color.Navy;
+            this.btnFermer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFermer.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnFermer.ForeColor = System.Drawing.Color.White;
             this.btnFermer.Location = new System.Drawing.Point(218, 357);
             this.btnFermer.Name = "btnFermer";
             this.btnFermer.Size = new System.Drawing.Size(125, 29);
             this.btnFermer.TabIndex = 4;
             this.btnFermer.Text = "Fermer";
-            this.btnFermer.UseVisualStyleBackColor = true;
+            this.btnFermer.UseVisualStyleBackColor = false;
             this.btnFermer.Click += new System.EventHandler(this.btnFermer_Click);
             // 
             // FormStatistiques
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(987, 450);
             this.Controls.Add(this.btnFermer);
             this.Controls.Add(this.btnRafraichirStats);
@@ -93,11 +108,11 @@
             this.Controls.Add(this.lblNbEvenements);
             this.Controls.Add(this.lblNbUtilisateurs);
             this.Name = "FormStatistiques";
-            this.Text = "FormStatistiques";
+            this.Text = "Statistiques";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
 
         #endregion
 

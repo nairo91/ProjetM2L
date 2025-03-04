@@ -40,44 +40,51 @@
             // lbMail
             // 
             this.lbMail.AutoSize = true;
-            this.lbMail.Font = new System.Drawing.Font("Cambria Math", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbMail.Location = new System.Drawing.Point(58, 101);
+            this.lbMail.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lbMail.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.lbMail.Location = new System.Drawing.Point(100, 120);
             this.lbMail.Name = "lbMail";
-            this.lbMail.Size = new System.Drawing.Size(75, 84);
+            this.lbMail.Size = new System.Drawing.Size(51, 23);
             this.lbMail.TabIndex = 0;
             this.lbMail.Text = "Mail :";
             // 
             // lbMDP
             // 
             this.lbMDP.AutoSize = true;
-            this.lbMDP.Font = new System.Drawing.Font("Cambria Math", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lbMDP.Location = new System.Drawing.Point(37, 152);
+            this.lbMDP.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lbMDP.ForeColor = System.Drawing.Color.DarkSlateGray;
+            this.lbMDP.Location = new System.Drawing.Point(100, 180);
             this.lbMDP.Name = "lbMDP";
-            this.lbMDP.Size = new System.Drawing.Size(136, 84);
+            this.lbMDP.Size = new System.Drawing.Size(121, 23);
             this.lbMDP.TabIndex = 1;
             this.lbMDP.Text = "Mot de passe :";
             // 
             // tbMail
             // 
-            this.tbMail.Location = new System.Drawing.Point(170, 131);
+            this.tbMail.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbMail.Location = new System.Drawing.Point(230, 115);
             this.tbMail.Name = "tbMail";
-            this.tbMail.Size = new System.Drawing.Size(125, 27);
+            this.tbMail.Size = new System.Drawing.Size(200, 30);
             this.tbMail.TabIndex = 2;
             // 
             // tbMDP
             // 
-            this.tbMDP.Location = new System.Drawing.Point(170, 180);
+            this.tbMDP.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tbMDP.Location = new System.Drawing.Point(230, 175);
             this.tbMDP.Name = "tbMDP";
             this.tbMDP.PasswordChar = '*';
-            this.tbMDP.Size = new System.Drawing.Size(125, 27);
+            this.tbMDP.Size = new System.Drawing.Size(200, 30);
             this.tbMDP.TabIndex = 3;
             // 
             // btConnexion
             // 
-            this.btConnexion.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.btConnexion.Location = new System.Drawing.Point(472, 275);
+            this.btConnexion.BackColor = System.Drawing.Color.Navy;
+            this.btConnexion.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btConnexion.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btConnexion.ForeColor = System.Drawing.Color.White;
+            this.btConnexion.Location = new System.Drawing.Point(123, 240);
             this.btConnexion.Name = "btConnexion";
-            this.btConnexion.Size = new System.Drawing.Size(112, 64);
+            this.btConnexion.Size = new System.Drawing.Size(120, 20);
             this.btConnexion.TabIndex = 4;
             this.btConnexion.Text = "Connexion";
             this.btConnexion.UseVisualStyleBackColor = false;
@@ -85,10 +92,13 @@
             // 
             // btInscription
             // 
-            this.btInscription.BackColor = System.Drawing.Color.LightBlue;
-            this.btInscription.Location = new System.Drawing.Point(170, 275);
+            this.btInscription.BackColor = System.Drawing.Color.SteelBlue;
+            this.btInscription.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btInscription.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btInscription.ForeColor = System.Drawing.Color.White;
+            this.btInscription.Location = new System.Drawing.Point(441, 240);
             this.btInscription.Name = "btInscription";
-            this.btInscription.Size = new System.Drawing.Size(125, 64);
+            this.btInscription.Size = new System.Drawing.Size(120, 20);
             this.btInscription.TabIndex = 5;
             this.btInscription.Text = "Inscription";
             this.btInscription.UseVisualStyleBackColor = false;
@@ -96,10 +106,13 @@
             // 
             // btnQuitter
             // 
-            this.btnQuitter.BackColor = System.Drawing.Color.Brown;
-            this.btnQuitter.Location = new System.Drawing.Point(698, 398);
+            this.btnQuitter.BackColor = System.Drawing.Color.DarkRed;
+            this.btnQuitter.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnQuitter.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnQuitter.ForeColor = System.Drawing.Color.White;
+            this.btnQuitter.Location = new System.Drawing.Point(680, 400);
             this.btnQuitter.Name = "btnQuitter";
-            this.btnQuitter.Size = new System.Drawing.Size(90, 41);
+            this.btnQuitter.Size = new System.Drawing.Size(90, 40);
             this.btnQuitter.TabIndex = 6;
             this.btnQuitter.Text = "Quitter";
             this.btnQuitter.UseVisualStyleBackColor = false;
@@ -109,7 +122,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Teal;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 451);
             this.Controls.Add(this.btnQuitter);
             this.Controls.Add(this.btInscription);
@@ -125,6 +138,7 @@
             this.PerformLayout();
 
         }
+
 
         #endregion
 
