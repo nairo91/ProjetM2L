@@ -36,7 +36,7 @@
             // 
             // btnContacts
             // 
-            this.btnContacts.Location = new System.Drawing.Point(12, 12);
+            this.btnContacts.Location = new System.Drawing.Point(12, 3);
             this.btnContacts.Name = "btnContacts";
             this.btnContacts.Size = new System.Drawing.Size(291, 141);
             this.btnContacts.TabIndex = 0;
