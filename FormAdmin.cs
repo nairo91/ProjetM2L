@@ -24,7 +24,7 @@ namespace AppContactEvenementM2Lv5
 
         private void FormAdmin_Load(object sender, EventArgs e)
         {
-            InitialiserRoles();
+            // InitialiserRoles();
             MessageBox.Show("FormAdmin_Load() s'exécute !");
             ChargerUtilisateurs();
             ChargerRoles();
@@ -133,6 +133,7 @@ namespace AppContactEvenementM2Lv5
         private void btnRafraichir_Click(object sender, EventArgs e)
         {
             ChargerUtilisateurs();
+            ChargerRoles();
         }
 
         private void dgvUtilisateurs_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -158,47 +159,70 @@ namespace AppContactEvenementM2Lv5
             string nouveauRole = txtNewRole.Text.Trim();
             if (!string.IsNullOrEmpty(nouveauRole))
             {
-                // Vérifie si le rôle n’existe pas déjà dans la ComboBox
-                if (!cmbRoles.Items.Contains(nouveauRole))
+                // Vérifie de façon insensible à la casse si le rôle existe déjà
+                bool existeDeja = cmbRoles.Items.Cast<string>()
+                    .Any(r => r.Equals(nouveauRole, StringComparison.OrdinalIgnoreCase));
+
+                if (!existeDeja)
                 {
-                    cmbRoles.Items.Add(nouveauRole);
-                    MessageBox.Show($"Le rôle '{nouveauRole}' a été ajouté.",
-                                    "Rôle ajouté",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
+                    // Récupère la chaîne de rôles actuelle dans les Settings
+                    string rolesStr = Properties.Settings.Default.CustomRoles;
+                    List<string> rolesList = new List<string>();
+                    if (!string.IsNullOrEmpty(rolesStr))
+                    {
+                        rolesList = rolesStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                            .Select(r => r.Trim())
+                                            .ToList();
+                    }
+                    // Ajoute le nouveau rôle (s'il n'existe pas déjà)
+                    rolesList.Add(nouveauRole);
+                    // Met à jour les Settings
+                    Properties.Settings.Default.CustomRoles = string.Join(",", rolesList);
+                    Properties.Settings.Default.Save();
+
+                    // Recharge la ComboBox avec la liste mise à jour
+                    ChargerRoles();
+                    MessageBox.Show($"Le rôle '{nouveauRole}' a été ajouté.", "Rôle ajouté", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     txtNewRole.Clear();
                 }
                 else
                 {
-                    MessageBox.Show("Ce rôle existe déjà.",
-                                    "Attention",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning);
+                    MessageBox.Show("Ce rôle existe déjà.", "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             else
             {
-                MessageBox.Show("Veuillez entrer un nom de rôle valide.",
-                                "Erreur",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error);
+                MessageBox.Show("Veuillez entrer un nom de rôle valide.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ChargerRoles()
         {
             cmbRoles.Items.Clear();
-            // Récupère la chaîne de rôles stockée dans les settings
+            // Récupère la chaîne de rôles stockée dans les Settings
             string rolesStr = Properties.Settings.Default.CustomRoles;
+
             if (!string.IsNullOrEmpty(rolesStr))
             {
-                // Sépare la chaîne par les virgules et ajoute chaque rôle
-                string[] roles = rolesStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                // 1. Découpe la chaîne, 2. Trim chaque rôle, 3. Évite doublons avec Distinct
+                var roles = rolesStr
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(r => r.Trim())
+                    .Where(r => !string.IsNullOrEmpty(r))
+                    .Distinct(StringComparer.OrdinalIgnoreCase)
+                    .ToList();
+
+                // (Optionnel) Réécrit la liste nettoyée dans les Settings pour enlever définitivement les doublons
+                Properties.Settings.Default.CustomRoles = string.Join(",", roles);
+                Properties.Settings.Default.Save();
+
+                // Ajoute chaque rôle dans la ComboBox
                 foreach (string role in roles)
                 {
-                    cmbRoles.Items.Add(role.Trim());
+                    cmbRoles.Items.Add(role);
                 }
             }
+
             if (cmbRoles.Items.Count > 0)
                 cmbRoles.SelectedIndex = 0;
         }
