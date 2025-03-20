@@ -187,8 +187,41 @@ namespace AppLegeayControles
 
         public bool InscrireUtilisateur(int utilisateurId, int evenementId)
         {
-            string query = "INSERT INTO inscriptions (utilisateur_id, evenement_id) VALUES (@utilisateurId, @evenementId)";
+            // 1. Récupérer le nombre actuel de participants
+            int currentCount = NombreParticipants(evenementId);
 
+            // 2. Récupérer le nombre maximum de participants pour l'événement
+            int? nbMaxParticipants = null;
+            string queryMax = "SELECT nb_max_participants FROM evenements WHERE id = @evenementId";
+            try
+            {
+                BDD.OpenConnection();
+                MySqlCommand cmdMax = new MySqlCommand(queryMax, BDD.GetConnection());
+                cmdMax.Parameters.AddWithValue("@evenementId", evenementId);
+                object result = cmdMax.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                {
+                    nbMaxParticipants = Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erreur lors de la récupération du nombre max de participants: " + ex.Message);
+            }
+            finally
+            {
+                BDD.CloseConnection();
+            }
+
+            // 3. Vérifier que le nombre maximum n'est pas atteint
+            if (nbMaxParticipants.HasValue && nbMaxParticipants.Value > 0 && currentCount >= nbMaxParticipants.Value)
+            {
+                Console.WriteLine("Nombre maximum de participants atteint pour l'événement.");
+                return false;
+            }
+
+            // 4. Procéder à l'insertion si la limite n'est pas atteinte
+            string query = "INSERT INTO inscriptions (utilisateur_id, evenement_id) VALUES (@utilisateurId, @evenementId)";
             try
             {
                 BDD.OpenConnection();
@@ -206,7 +239,8 @@ namespace AppLegeayControles
             }
         }
 
-       
+
+
         public bool DesinscrireUtilisateur(int utilisateurId, int evenementId)
         {
             string query = "DELETE FROM inscriptions WHERE utilisateur_id = @utilisateurId AND evenement_id = @evenementId";

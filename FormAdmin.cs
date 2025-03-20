@@ -27,6 +27,7 @@ namespace AppContactEvenementM2Lv5
             InitialiserRoles();
             MessageBox.Show("FormAdmin_Load() s'exécute !");
             ChargerUtilisateurs();
+            ChargerRoles();
             btnStatistiques.Visible = true; // S'assurer qu'il est affiché
         }
 
@@ -183,5 +184,24 @@ namespace AppContactEvenementM2Lv5
                                 MessageBoxIcon.Error);
             }
         }
+
+        private void ChargerRoles()
+        {
+            cmbRoles.Items.Clear();
+            // Récupère la chaîne de rôles stockée dans les settings
+            string rolesStr = Properties.Settings.Default.CustomRoles;
+            if (!string.IsNullOrEmpty(rolesStr))
+            {
+                // Sépare la chaîne par les virgules et ajoute chaque rôle
+                string[] roles = rolesStr.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string role in roles)
+                {
+                    cmbRoles.Items.Add(role.Trim());
+                }
+            }
+            if (cmbRoles.Items.Count > 0)
+                cmbRoles.SelectedIndex = 0;
+        }
+
     }
 }
