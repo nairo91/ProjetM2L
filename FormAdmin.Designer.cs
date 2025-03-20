@@ -28,30 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgvUtilisateurs = new System.Windows.Forms.DataGridView();
             this.btnSupprimerUtilisateur = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnRafraichir = new System.Windows.Forms.Button();
             this.btnStatistiques = new System.Windows.Forms.Button();
             this.btnFermer = new System.Windows.Forms.Button();
+            this.cmbRoles = new System.Windows.Forms.ComboBox();
+            this.txtNewRole = new System.Windows.Forms.TextBox();
+            this.btnAjouterRole = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUtilisateurs)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvUtilisateurs
             // 
-            this.dgvUtilisateurs.BackgroundColor = System.Drawing.Color.WhiteSmoke;
-            this.dgvUtilisateurs.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            // dgvUtilisateurs (amélioré)
             this.dgvUtilisateurs.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvUtilisateurs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUtilisateurs.BackgroundColor = System.Drawing.Color.WhiteSmoke;
             this.dgvUtilisateurs.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvUtilisateurs.GridColor = System.Drawing.Color.LightGray;
-            // Personnalisation des en-têtes
-            this.dgvUtilisateurs.ColumnHeadersDefaultCellStyle.BackColor = System.Drawing.Color.Navy;
-            this.dgvUtilisateurs.ColumnHeadersDefaultCellStyle.ForeColor = System.Drawing.Color.White;
-            this.dgvUtilisateurs.ColumnHeadersDefaultCellStyle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Navy;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvUtilisateurs.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvUtilisateurs.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvUtilisateurs.EnableHeadersVisualStyles = false;
+            this.dgvUtilisateurs.GridColor = System.Drawing.Color.LightGray;
             this.dgvUtilisateurs.Location = new System.Drawing.Point(56, 41);
             this.dgvUtilisateurs.Name = "dgvUtilisateurs";
             this.dgvUtilisateurs.RowHeadersWidth = 51;
@@ -59,7 +64,6 @@
             this.dgvUtilisateurs.Size = new System.Drawing.Size(671, 252);
             this.dgvUtilisateurs.TabIndex = 0;
             this.dgvUtilisateurs.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUtilisateurs_CellContentClick);
-
             // 
             // btnSupprimerUtilisateur
             // 
@@ -131,12 +135,40 @@
             this.btnFermer.UseVisualStyleBackColor = false;
             this.btnFermer.Click += new System.EventHandler(this.btnFermer_Click);
             // 
+            // cmbRoles
+            // 
+            this.cmbRoles.FormattingEnabled = true;
+            this.cmbRoles.Location = new System.Drawing.Point(742, 41);
+            this.cmbRoles.Name = "cmbRoles";
+            this.cmbRoles.Size = new System.Drawing.Size(151, 28);
+            this.cmbRoles.TabIndex = 6;
+            // 
+            // txtNewRole
+            // 
+            this.txtNewRole.Location = new System.Drawing.Point(742, 197);
+            this.txtNewRole.Name = "txtNewRole";
+            this.txtNewRole.Size = new System.Drawing.Size(125, 27);
+            this.txtNewRole.TabIndex = 7;
+            // 
+            // btnAjouterRole
+            // 
+            this.btnAjouterRole.Location = new System.Drawing.Point(742, 242);
+            this.btnAjouterRole.Name = "btnAjouterRole";
+            this.btnAjouterRole.Size = new System.Drawing.Size(125, 29);
+            this.btnAjouterRole.TabIndex = 8;
+            this.btnAjouterRole.Text = "Ajouter rôle";
+            this.btnAjouterRole.UseVisualStyleBackColor = true;
+            this.btnAjouterRole.Click += new System.EventHandler(this.btnAjouterRole_Click);
+            // 
             // FormAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1079, 450);
+            this.Controls.Add(this.btnAjouterRole);
+            this.Controls.Add(this.txtNewRole);
+            this.Controls.Add(this.cmbRoles);
             this.Controls.Add(this.btnFermer);
             this.Controls.Add(this.btnStatistiques);
             this.Controls.Add(this.btnRafraichir);
@@ -147,6 +179,7 @@
             this.Text = "FormAdmin";
             ((System.ComponentModel.ISupportInitialize)(this.dgvUtilisateurs)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -159,5 +192,8 @@
         private Button btnRafraichir;
         private Button btnStatistiques;
         private Button btnFermer;
+        private ComboBox cmbRoles;
+        private TextBox txtNewRole;
+        private Button btnAjouterRole;
     }
 }
