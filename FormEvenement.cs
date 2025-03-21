@@ -1,12 +1,9 @@
 ﻿using AppContactEvenementM2Lv5;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AppLegeayControles
@@ -21,77 +18,57 @@ namespace AppLegeayControles
             InitializeComponent();
             utilisateurConnecteId = utilisateurId;
 
-
-            cbFiltre.SelectedIndex = 0; // ✅ Sélectionner "Tous" par défaut
-            cbFiltre.SelectedIndexChanged += cbFiltre_SelectedIndexChanged; // ✅ Détecter les changements
+            cbFiltre.SelectedIndex = 0;
+            cbFiltre.SelectedIndexChanged += cbFiltre_SelectedIndexChanged;
         }
 
-
-        // Charger les événements dans le DataGridView
-        // Charger les événements dans le DataGridView
         private void ChargerEvenements(string filtre = "Tous")
         {
-            // Récupère tous les événements
             List<Evenement> evenements = evenementDAO.ObtenirEvenements();
+            evenements = evenements.OrderBy(e => e.GetDate()).ToList();
+            DateTime aujourdHui = DateTime.Today;
 
-            // Trie les événements par date (du plus récent au plus ancien)
-            evenements = evenements.OrderBy(e => e.Date).ToList();
-
-            // 🔥 Correction des filtres 🔥
-            DateTime aujourdHui = DateTime.Today; // Date actuelle sans heure
-
+            // Appliquer le filtre
             if (filtre == "À venir")
             {
-                // ✅ Filtre les événements STRICTEMENT après aujourd'hui
-                evenements = evenements.Where(e => e.Date >= aujourdHui.AddDays(1)).ToList();
+                evenements = evenements.Where(e => e.GetDate() >= aujourdHui.AddDays(1)).ToList();
             }
             else if (filtre == "En cours")
             {
-                // ✅ Filtre les événements qui ont LIEU AUJOURD'HUI
-                evenements = evenements.Where(e => e.Date.Date == aujourdHui).ToList();
+                evenements = evenements.Where(e => e.GetDate().Date == aujourdHui).ToList();
             }
             else if (filtre == "Passés")
             {
-                // ✅ Filtre les événements STRICTEMENT avant aujourd'hui
-                evenements = evenements.Where(e => e.Date.Date < aujourdHui).ToList();
+                evenements = evenements.Where(e => e.GetDate().Date < aujourdHui).ToList();
             }
 
-            // Affecte les données filtrées et triées au DataGridView
-            dgvEvenements.DataSource = evenements;
+            // ✅ Nettoyer le DataGridView avant de remplir
+            dgvEvenements.Columns.Clear();
+            dgvEvenements.Rows.Clear();
 
-            // Vérifie si la colonne "NombreParticipants" existe déjà, sinon l'ajouter
-            if (!dgvEvenements.Columns.Contains("NombreParticipants"))
+            // ✅ Ajouter les colonnes manquantes
+            dgvEvenements.Columns.Add("Id", "ID");
+            dgvEvenements.Columns.Add("Nom", "Nom");
+            dgvEvenements.Columns.Add("Date", "Date");
+            dgvEvenements.Columns.Add("Lieu", "Lieu");
+            dgvEvenements.Columns.Add("Description", "Description");
+            dgvEvenements.Columns.Add("NbMaxParticipants", "Participants max");
+            dgvEvenements.Columns.Add("Participants", "Participants");
+
+            // ✅ Remplir manuellement chaque ligne
+            foreach (var evt in evenements)
             {
-                dgvEvenements.Columns.Add("NombreParticipants", "Participants");
+                dgvEvenements.Rows.Add(evt.GetId(), evt.GetNom(), evt.GetDate().ToString("dd/MM/yyyy"),
+                                       evt.GetLieu(), evt.GetDescription(), evt.GetNbMaxParticipants(),
+                                       evenementDAO.NombreParticipants(evt.GetId()));
             }
 
-            // Met à jour la colonne "NombreParticipants"
-            foreach (DataGridViewRow row in dgvEvenements.Rows)
-            {
-                if (row.Cells["Id"].Value != null)
-                {
-                    int evenementId = Convert.ToInt32(row.Cells["Id"].Value);
-                    row.Cells["NombreParticipants"].Value = evenementDAO.NombreParticipants(evenementId);
-                }
-            }
-
-            // Masquer l'ID et ajuster la taille des colonnes
+            // ✅ Cacher l'ID si besoin
             dgvEvenements.Columns["Id"].Visible = false;
             dgvEvenements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
 
-
-
-
-
-
-
-
-
-
-
-        // Nettoyer les champs après ajout
         private void NettoyerChamps()
         {
             txtNom.Clear();
@@ -99,31 +76,6 @@ namespace AppLegeayControles
             txtLieu.Clear();
             txtDescription.Clear();
             numParticipants.Value = 0;
-        }
-
-        private void dgvEvenements_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void txtNom_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtLieu_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numParticipants_ValueChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void btnAjouter_Click_1(object sender, EventArgs e)
@@ -134,16 +86,13 @@ namespace AppLegeayControles
                 return;
             }
 
-            Evenement evt = new Evenement
-            {
-                Nom = txtNom.Text,
-                Date = dtpDate.Value,
-                Lieu = txtLieu.Text,
-                Description = txtDescription.Text,
-                NbMaxParticipants = (int)numParticipants.Value
-            };
+            Evenement evt = new Evenement();
+            evt.SetNom(txtNom.Text);
+            evt.SetDate(dtpDate.Value);
+            evt.SetLieu(txtLieu.Text);
+            evt.SetDescription(txtDescription.Text);
+            evt.SetNbMaxParticipants((int)numParticipants.Value);
 
-            // Ajoute l'événement et INSCRIT AUTOMATIQUEMENT le créateur
             evenementDAO.AjouterEvenement(evt, utilisateurConnecteId);
 
             MessageBox.Show("Événement ajouté avec succès et vous y êtes inscrit automatiquement !");
@@ -174,45 +123,45 @@ namespace AppLegeayControles
             }
         }
 
-
         private void btnAfficher_Click(object sender, EventArgs e)
         {
             ChargerEvenements();
             MessageBox.Show("Liste des événements chargée avec succès.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        }
-
-        private void lbNomEv_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnRetour_Click(object sender, EventArgs e)
         {
             FormSelection formSelection = new FormSelection(utilisateurConnecteId);
             formSelection.Show();
-            this.Close(); // Ferme la fenêtre actuelle
+            this.Close();
         }
 
         private void dgvEvenements_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0)
             {
-                // Récupère la ligne sélectionnée
                 DataGridViewRow selectedRow = dgvEvenements.Rows[e.RowIndex];
 
-                // Remplit les TextBox avec les informations de l'événement sélectionné
-                txtNom.Text = selectedRow.Cells["nom"].Value?.ToString() ?? "";
-                dtpDate.Value = Convert.ToDateTime(selectedRow.Cells["date"].Value);
-                txtLieu.Text = selectedRow.Cells["lieu"].Value?.ToString() ?? "";
-                txtDescription.Text = selectedRow.Cells["description"].Value?.ToString() ?? "";
+                txtNom.Text = selectedRow.Cells["Nom"].Value?.ToString() ?? "";
+                txtLieu.Text = selectedRow.Cells["Lieu"].Value?.ToString() ?? "";
+                txtDescription.Text = selectedRow.Cells["Description"].Value?.ToString() ?? "";
+
+                // ✅ Vérification de la date pour éviter l'erreur "ArgumentOutOfRangeException"
+                if (selectedRow.Cells["Date"].Value != null && DateTime.TryParse(selectedRow.Cells["Date"].Value.ToString(), out DateTime eventDate))
+                {
+                    if (eventDate >= dtpDate.MinDate && eventDate <= dtpDate.MaxDate)
+                        dtpDate.Value = eventDate;
+                    else
+                        dtpDate.Value = DateTime.Now;
+                }
+                else
+                {
+                    dtpDate.Value = DateTime.Now; // Défaut si la date est invalide
+                }
+
                 numParticipants.Value = selectedRow.Cells["NbMaxParticipants"].Value != DBNull.Value
-    ? Convert.ToInt32(selectedRow.Cells["NbMaxParticipants"].Value)
-    : 0;
-
-
-                // Afficher un message pour confirmer la sélection
-               // MessageBox.Show($"Événement sélectionné : {txtNom.Text}, {dtpDate.Value}, {txtLieu.Text}, {txtDescription.Text}");
+                    ? Convert.ToInt32(selectedRow.Cells["NbMaxParticipants"].Value)
+                    : 0;
             }
         }
 
@@ -220,24 +169,20 @@ namespace AppLegeayControles
         {
             if (dgvEvenements.SelectedRows.Count > 0)
             {
-                // Récupérer l'ID de l'événement sélectionné
                 int evenementId = Convert.ToInt32(dgvEvenements.SelectedRows[0].Cells["Id"].Value);
 
-                // Vérifier si l'utilisateur connecté est bien le créateur AVANT d'essayer de modifier
                 if (!evenementDAO.EstCreateurEvenement(evenementId, utilisateurConnecteId))
                 {
                     MessageBox.Show("Vous ne pouvez modifier que vos propres événements.");
                     return;
                 }
 
-                // Récupérer les nouvelles valeurs depuis les champs
                 string nouveauNom = txtNom.Text;
                 DateTime nouvelleDate = dtpDate.Value;
                 string nouveauLieu = txtLieu.Text;
                 string nouvelleDescription = txtDescription.Text;
                 int? nouveauNbMaxParticipants = numParticipants.Value > 0 ? (int)numParticipants.Value : (int?)null;
 
-                // Effectuer la mise à jour
                 bool modification = evenementDAO.ModifierEvenement(
                     evenementId, utilisateurConnecteId,
                     nouveauNom, nouvelleDate, nouveauLieu, nouvelleDescription, nouveauNbMaxParticipants
@@ -317,29 +262,98 @@ namespace AppLegeayControles
 
         private void btnMesEvenements_Click(object sender, EventArgs e)
         {
-            dgvEvenements.DataSource = evenementDAO.ObtenirMesEvenements(utilisateurConnecteId);
+            List<Evenement> evenements = evenementDAO.ObtenirMesEvenements(utilisateurConnecteId);
 
+            dgvEvenements.Columns.Clear();
+            dgvEvenements.Rows.Clear();
+
+            dgvEvenements.Columns.Add("Id", "ID");
+            dgvEvenements.Columns.Add("Nom", "Nom");
+            dgvEvenements.Columns.Add("Date", "Date");
+            dgvEvenements.Columns.Add("Lieu", "Lieu");
+            dgvEvenements.Columns.Add("Description", "Description");
+            dgvEvenements.Columns.Add("NbMaxParticipants", "Participants max");
+            dgvEvenements.Columns.Add("Participants", "Participants");
+
+            foreach (var evt in evenements)
+            {
+                dgvEvenements.Rows.Add(evt.GetId(), evt.GetNom(),
+                                       evt.GetDate() == DateTime.MinValue ? "Non défini" : evt.GetDate().ToString("dd/MM/yyyy"),
+                                       evt.GetLieu(), evt.GetDescription(), evt.GetNbMaxParticipants(),
+                                       evenementDAO.NombreParticipants(evt.GetId()));
+            }
+
+            dgvEvenements.Columns["Id"].Visible = false;
+            dgvEvenements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void btnEvenementsCrees_Click(object sender, EventArgs e)
         {
-            dgvEvenements.DataSource = evenementDAO.ObtenirEvenementsCrees(utilisateurConnecteId);
+            List<Evenement> evenements = evenementDAO.ObtenirEvenementsCrees(utilisateurConnecteId);
 
+            dgvEvenements.Columns.Clear();
+            dgvEvenements.Rows.Clear();
+
+            dgvEvenements.Columns.Add("Id", "ID");
+            dgvEvenements.Columns.Add("Nom", "Nom");
+            dgvEvenements.Columns.Add("Date", "Date");
+            dgvEvenements.Columns.Add("Lieu", "Lieu");
+            dgvEvenements.Columns.Add("Description", "Description");
+            dgvEvenements.Columns.Add("NbMaxParticipants", "Participants max");
+            dgvEvenements.Columns.Add("Participants", "Participants");
+
+            foreach (var evt in evenements)
+            {
+                dgvEvenements.Rows.Add(evt.GetId(), evt.GetNom(),
+                                       evt.GetDate() == DateTime.MinValue ? "Non défini" : evt.GetDate().ToString("dd/MM/yyyy"),
+                                       evt.GetLieu(), evt.GetDescription(), evt.GetNbMaxParticipants(),
+                                       evenementDAO.NombreParticipants(evt.GetId()));
+            }
+
+            dgvEvenements.Columns["Id"].Visible = false;
+            dgvEvenements.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
         private void cbFiltre_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbFiltre.SelectedItem != null) // ✅ Sécurisation contre les erreurs
+            if (cbFiltre.SelectedItem != null)
             {
                 ChargerEvenements(cbFiltre.SelectedItem.ToString());
             }
-
         }
 
         private void btnStat_Click(object sender, EventArgs e)
         {
-            FormStatistiquesEvenement formStats = new FormStatistiquesEvenement();  
-            formStats.Show();  
+            FormStatistiquesEvenement formStats = new FormStatistiquesEvenement();
+            formStats.Show();
         }
+
+        private void txtNom_TextChanged(object sender, EventArgs e)
+        {
+            // Optionnel : traitement à faire lors d'une modification
+        }
+
+        private void txtLieu_TextChanged(object sender, EventArgs e)
+        {
+            // Optionnel
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            // Optionnel
+        }
+
+        private void numParticipants_ValueChanged(object sender, EventArgs e)
+        {
+            // Optionnel
+        }
+
+        private void dgvEvenements_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Optionnel
+        }
+
     }
 }
+
+

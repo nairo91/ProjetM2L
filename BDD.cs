@@ -1,6 +1,7 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Data;
+using MySql.Data.MySqlClient;
+using System.Windows.Forms;
 
 namespace AppLegeayControles
 {
@@ -9,7 +10,6 @@ namespace AppLegeayControles
         private static string connectionString = "server=localhost;port=3306;database=bdcontact;uid=root;pwd=;";
         private static MySqlConnection connection = null;
 
-        // Récupère ou crée une nouvelle connexion
         public static MySqlConnection GetConnection()
         {
             if (connection == null)
@@ -19,25 +19,22 @@ namespace AppLegeayControles
             return connection;
         }
 
-        // Ouvre la connexion si elle est fermée
         public static void OpenConnection()
         {
             if (connection == null)
                 connection = GetConnection();
-            if (connection.State == System.Data.ConnectionState.Closed)
+            if (connection.State == ConnectionState.Closed)
                 connection.Open();
         }
 
-        // Ferme la connexion si elle est ouverte
         public static void CloseConnection()
         {
-            if (connection != null && connection.State == System.Data.ConnectionState.Open)
+            if (connection != null && connection.State == ConnectionState.Open)
             {
                 connection.Close();
             }
         }
 
-        // Exécute une requête qui ne renvoie pas de données (INSERT, UPDATE, DELETE)
         public static int ExecuteQuery(string query)
         {
             OpenConnection();
@@ -47,7 +44,6 @@ namespace AppLegeayControles
             return result;
         }
 
-        // Exécute une requête qui renvoie des données (SELECT)
         public static MySqlDataReader ExecuteSelect(string query)
         {
             OpenConnection();
@@ -55,7 +51,6 @@ namespace AppLegeayControles
             return cmd.ExecuteReader();
         }
 
-        // Méthode pour inscrire un nouvel utilisateur avec des paramètres sécurisés
         public static bool InscrireUtilisateur(string nom, string prenom, string email, string motDePasse)
         {
             string query = "INSERT INTO utilisateurs (nom, prenom, email, mdp) VALUES (@nom, @prenom, @mail, @mdp)";
@@ -70,7 +65,7 @@ namespace AppLegeayControles
                 cmd.Parameters.AddWithValue("@mdp", motDePasse);
                 int result = cmd.ExecuteNonQuery();
                 CloseConnection();
-                return result > 0;  // Retourne vrai si l'insertion réussit
+                return result > 0;
             }
             catch (Exception ex)
             {
@@ -78,9 +73,7 @@ namespace AppLegeayControles
                 return false;
             }
         }
-    
 
-        // Méthode pour vérifier si un utilisateur existe avec l'email et le mot de passe fournis
         public static bool ConnexionUtilisateur(string email, string motDePasse)
         {
             string query = "SELECT * FROM utilisateurs WHERE email = @mail AND mdp = @mdp";
@@ -92,7 +85,7 @@ namespace AppLegeayControles
                 cmd.Parameters.AddWithValue("@mail", email);
                 cmd.Parameters.AddWithValue("@mdp", motDePasse);
                 MySqlDataReader reader = cmd.ExecuteReader();
-                bool hasRows = reader.HasRows;  // Vérifie si la requête a retourné des résultats
+                bool hasRows = reader.HasRows;
                 reader.Close();
                 CloseConnection();
                 return hasRows;
@@ -107,18 +100,18 @@ namespace AppLegeayControles
         public static int GetUtilisateurId(string email)
         {
             string query = "SELECT id FROM utilisateurs WHERE email = @mail";
-            int utilisateurId = -1; // Valeur par défaut en cas d'erreur ou utilisateur introuvable
+            int utilisateurId = -1;
 
             try
             {
-                OpenConnection(); // Ouvre la connexion à la base de données
+                OpenConnection();
                 MySqlCommand cmd = new MySqlCommand(query, GetConnection());
                 cmd.Parameters.AddWithValue("@mail", email);
 
-                object result = cmd.ExecuteScalar(); // Exécute la requête et récupère un résultat unique
+                object result = cmd.ExecuteScalar();
                 if (result != null)
                 {
-                    utilisateurId = Convert.ToInt32(result); // Convertit le résultat en entier
+                    utilisateurId = Convert.ToInt32(result);
                 }
             }
             catch (Exception ex)
@@ -127,15 +120,15 @@ namespace AppLegeayControles
             }
             finally
             {
-                CloseConnection(); // Ferme la connexion
+                CloseConnection();
             }
 
-            return utilisateurId; // Retourne l'ID utilisateur ou -1 en cas d'erreur
+            return utilisateurId;
         }
 
         public static string GetUserRole(string email)
         {
-            string role = "user"; // Valeur par défaut
+            string role = "user";
 
             try
             {
@@ -162,21 +155,17 @@ namespace AppLegeayControles
             return role;
         }
 
-
         public static DataTable GetAllUtilisateurs()
         {
             DataTable dt = new DataTable();
             string query = "SELECT id, nom, prenom, email, role FROM utilisateurs";
-
 
             try
             {
                 OpenConnection();
                 MySqlCommand cmd = new MySqlCommand(query, GetConnection());
                 MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                adapter.Fill(dt);  // Remplit le DataTable avec les données de la BDD
-
-                // Vérifier si la requête récupère bien des utilisateurs
+                adapter.Fill(dt);
                 MessageBox.Show($"Requête SQL exécutée : {query}, Nombre de résultats : {dt.Rows.Count}");
             }
             catch (Exception ex)
@@ -200,7 +189,7 @@ namespace AppLegeayControles
                 OpenConnection();
                 MySqlCommand cmd = new MySqlCommand(query, GetConnection());
                 cmd.Parameters.AddWithValue("@id", utilisateurId);
-                int result = cmd.ExecuteNonQuery(); // Exécute la suppression
+                int result = cmd.ExecuteNonQuery();
                 return result > 0;
             }
             catch (Exception ex)
@@ -214,7 +203,6 @@ namespace AppLegeayControles
             }
         }
 
-
         public static bool ChangerRoleUtilisateur(int utilisateurId, string nouveauRole)
         {
             string query = "UPDATE utilisateurs SET role = @role WHERE id = @id";
@@ -225,7 +213,7 @@ namespace AppLegeayControles
                 MySqlCommand cmd = new MySqlCommand(query, GetConnection());
                 cmd.Parameters.AddWithValue("@role", nouveauRole);
                 cmd.Parameters.AddWithValue("@id", utilisateurId);
-                int result = cmd.ExecuteNonQuery(); // Met à jour le rôle
+                int result = cmd.ExecuteNonQuery();
                 return result > 0;
             }
             catch (Exception ex)
@@ -295,7 +283,6 @@ namespace AppLegeayControles
             try
             {
                 OpenConnection();
-
                 MySqlCommand cmdTotalParticipants = new MySqlCommand(totalParticipantsQuery, GetConnection());
                 int totalParticipants = Convert.ToInt32(cmdTotalParticipants.ExecuteScalar());
 
@@ -318,37 +305,6 @@ namespace AppLegeayControles
 
             return taux;
         }
-
-
-        public static string GetEmailUtilisateur(int utilisateurId)
-        {
-            string email = "";
-            string query = "SELECT email FROM utilisateurs WHERE id = @id";
-
-            try
-            {
-                OpenConnection();
-                MySqlCommand cmd = new MySqlCommand(query, GetConnection());
-                cmd.Parameters.AddWithValue("@id", utilisateurId);
-
-                object result = cmd.ExecuteScalar();
-                if (result != null)
-                {
-                    email = result.ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erreur lors de la récupération de l'email : " + ex.Message);
-            }
-            finally
-            {
-                CloseConnection();
-            }
-
-            return email;
-        }
-
 
         public static bool ModifierUtilisateur(int utilisateurId, string nouveauNom, string nouveauPrenom, string nouvelEmail, string nouveauMdp)
         {
@@ -373,15 +329,12 @@ namespace AppLegeayControles
                     cmd.Parameters.AddWithValue("@MotDePasse", nouveauMdp);
                 }
 
-                // Ajout des paramètres
                 cmd.Parameters.AddWithValue("@Nom", nouveauNom);
                 cmd.Parameters.AddWithValue("@Prenom", nouveauPrenom);
                 cmd.Parameters.AddWithValue("@Email", nouvelEmail);
                 cmd.Parameters.AddWithValue("@Id", utilisateurId);
 
                 int result = cmd.ExecuteNonQuery();
-                CloseConnection();
-
                 return result > 0;
             }
             catch (Exception ex)
@@ -389,8 +342,11 @@ namespace AppLegeayControles
                 Console.WriteLine("Erreur lors de la mise à jour : " + ex.Message);
                 return false;
             }
+            finally
+            {
+                CloseConnection();
+            }
         }
-
 
         public static string[] GetInfosUtilisateur(int utilisateurId)
         {
@@ -404,11 +360,11 @@ namespace AppLegeayControles
                 cmd.Parameters.AddWithValue("@id", utilisateurId);
                 MySqlDataReader reader = cmd.ExecuteReader();
 
-                if (reader.Read()) // Si on trouve l'utilisateur
+                if (reader.Read())
                 {
-                    infos[0] = reader["nom"].ToString();    // Nom
-                    infos[1] = reader["prenom"].ToString(); // Prénom
-                    infos[2] = reader["email"].ToString();  // Email
+                    infos[0] = reader["nom"].ToString();
+                    infos[1] = reader["prenom"].ToString();
+                    infos[2] = reader["email"].ToString();
                 }
                 reader.Close();
             }
@@ -425,6 +381,7 @@ namespace AppLegeayControles
         }
 
 
-
     }
 }
+
+
