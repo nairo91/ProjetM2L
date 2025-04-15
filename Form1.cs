@@ -13,6 +13,8 @@ namespace AppLegeayControles
             InitializeComponent();
             StyleButtons();
             StyleForm();
+            this.AcceptButton = btConnexion;
+
         }
 
         private void StyleButtons()
@@ -72,10 +74,11 @@ namespace AppLegeayControles
 
         private void tbMail_KeyDown(object sender, KeyEventArgs e)
         {
+
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Empêche le bip sonore
-                btConnexion.PerformClick(); // Simule le clic sur le bouton Connexion
+                e.SuppressKeyPress = true;
+                btConnexion_Click_1(btConnexion, EventArgs.Empty);
             }
         }
 
@@ -83,8 +86,8 @@ namespace AppLegeayControles
         {
             if (e.KeyCode == Keys.Enter)
             {
-                e.SuppressKeyPress = true; // Empêche le bip sonore
-                btConnexion.PerformClick(); // Simule le clic sur le bouton Connexion
+                e.SuppressKeyPress = true;
+                btConnexion_Click_1(btConnexion, EventArgs.Empty);
             }
         }
 

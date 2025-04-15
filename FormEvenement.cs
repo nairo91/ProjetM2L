@@ -20,6 +20,16 @@ namespace AppLegeayControles
 
             cbFiltre.SelectedIndex = 0;
             cbFiltre.SelectedIndexChanged += cbFiltre_SelectedIndexChanged;
+            ArrondirBouton(btnAjouter);
+            ArrondirBouton(btnSupprimer);
+            ArrondirBouton(btnAfficher);
+            ArrondirBouton(btnRetour);
+            ArrondirBouton(btnModifier);
+            //ArrondirBouton(button1); // pour inscription
+            ArrondirBouton(btnDesinscrire);
+            ArrondirBouton(btnMesEvenements);
+            ArrondirBouton(btnEvenementsCrees);
+            ArrondirBouton(btnStat);
         }
 
         private void ChargerEvenements(string filtre = "Tous")
@@ -352,6 +362,15 @@ namespace AppLegeayControles
         {
             // Optionnel
         }
+
+        [System.Runtime.InteropServices.DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+
+        private void ArrondirBouton(Button bouton)
+        {
+            bouton.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, bouton.Width, bouton.Height, 20, 20));
+        }
+
 
     }
 }

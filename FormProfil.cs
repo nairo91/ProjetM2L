@@ -72,5 +72,10 @@ namespace AppContactEvenementM2Lv5
                 this.Close(); // Ferme le formulaire après mise à jour
             }
         }
+
+        private void btnRetour_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

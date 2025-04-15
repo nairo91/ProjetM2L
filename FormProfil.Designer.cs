@@ -37,13 +37,14 @@
             this.tbPrenom = new System.Windows.Forms.TextBox();
             this.lbNvNom = new System.Windows.Forms.Label();
             this.lbNvPrenom = new System.Windows.Forms.Label();
+            this.btnRetour = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // tbEmail
             // 
             this.tbEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbEmail.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tbEmail.Location = new System.Drawing.Point(157, 61);
+            this.tbEmail.Location = new System.Drawing.Point(201, 61);
             this.tbEmail.Name = "tbEmail";
             this.tbEmail.Size = new System.Drawing.Size(194, 30);
             this.tbEmail.TabIndex = 0;
@@ -97,7 +98,7 @@
             // 
             this.tbNom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbNom.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tbNom.Location = new System.Drawing.Point(157, 119);
+            this.tbNom.Location = new System.Drawing.Point(201, 124);
             this.tbNom.Name = "tbNom";
             this.tbNom.Size = new System.Drawing.Size(194, 30);
             this.tbNom.TabIndex = 5;
@@ -106,7 +107,7 @@
             // 
             this.tbPrenom.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tbPrenom.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tbPrenom.Location = new System.Drawing.Point(171, 183);
+            this.tbPrenom.Location = new System.Drawing.Point(201, 183);
             this.tbPrenom.Name = "tbPrenom";
             this.tbPrenom.Size = new System.Drawing.Size(194, 30);
             this.tbPrenom.TabIndex = 6;
@@ -133,12 +134,27 @@
             this.lbNvPrenom.TabIndex = 8;
             this.lbNvPrenom.Text = "Nouveau prenom :";
             // 
+            // btnRetour
+            // 
+            this.btnRetour.BackColor = System.Drawing.Color.Navy;
+            this.btnRetour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRetour.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.btnRetour.ForeColor = System.Drawing.Color.White;
+            this.btnRetour.Location = new System.Drawing.Point(327, 344);
+            this.btnRetour.Name = "btnRetour";
+            this.btnRetour.Size = new System.Drawing.Size(140, 44);
+            this.btnRetour.TabIndex = 10;
+            this.btnRetour.Text = "Retour";
+            this.btnRetour.UseVisualStyleBackColor = false;
+            this.btnRetour.Click += new System.EventHandler(this.btnRetour_Click);
+            // 
             // FormProfil
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnRetour);
             this.Controls.Add(this.lbNvPrenom);
             this.Controls.Add(this.lbNvNom);
             this.Controls.Add(this.tbPrenom);
@@ -167,5 +183,6 @@
         private TextBox tbPrenom;
         private Label lbNvNom;
         private Label lbNvPrenom;
+        private Button btnRetour;
     }
 }
