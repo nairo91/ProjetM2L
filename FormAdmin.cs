@@ -25,7 +25,7 @@ namespace AppContactEvenementM2Lv5
         private void FormAdmin_Load(object sender, EventArgs e)
         {
             // InitialiserRoles();
-            MessageBox.Show("FormAdmin_Load() s'exécute !");
+         
             ChargerUtilisateurs();
             ChargerRoles();
             btnStatistiques.Visible = true; // S'assurer qu'il est affiché

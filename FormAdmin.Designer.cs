@@ -177,6 +177,8 @@
             this.Controls.Add(this.dgvUtilisateurs);
             this.Name = "FormAdmin";
             this.Text = "FormAdmin";
+            this.Load += new System.EventHandler(this.FormAdmin_Load);
+
             ((System.ComponentModel.ISupportInitialize)(this.dgvUtilisateurs)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
